@@ -1,6 +1,6 @@
-# maillard-frontend
+# Getting Started with Create React App
 
-A single page application which consumes the API provided by maillard-backend.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
