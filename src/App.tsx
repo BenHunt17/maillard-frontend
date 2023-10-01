@@ -24,8 +24,8 @@ function App() {
     <div>
       <button onClick={login}>Login</button>
       <button onClick={test}>Test</button>
-      {success == "true" && <p style={{ color: "green" }}>Success</p>}
-      {success == "false" && <p style={{ color: "red" }}>Failed</p>}
+      {success === "true" && <p style={{ color: "green" }}>Success</p>}
+      {success === "false" && <p style={{ color: "red" }}>Failed</p>}
     </div>
   );
 }
