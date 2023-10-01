@@ -1,18 +1,33 @@
-import { useEffect, useState } from "react";
 import "./App.css";
 
-const uri = process.env.REACT_APP_MAILLARD_API_BASE_URI;
-
 function App() {
-  const [data, setData] = useState<any>();
+  const searchParams = new URLSearchParams(window.location.search);
+  const success = searchParams.get("success");
 
-  useEffect(() => {
-    fetch(`${uri}/`, { method: "get" }).then((response) =>
-      response.text().then((v) => setData(v))
+  const login = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_MAILLARD_API_BASE_URI}/auth/google/login`
     );
-  }, []);
+    const data = await response.json();
+    window.location.href = data.url;
+  };
 
-  return <p>{data}</p>;
+  const test = () => {
+    fetch(`${process.env.REACT_APP_MAILLARD_API_BASE_URI}/test`, {
+      credentials: "include",
+    }).then((res) => {
+      console.log(res.json);
+    });
+  };
+
+  return (
+    <div>
+      <button onClick={login}>Login</button>
+      <button onClick={test}>Test</button>
+      {success == "true" && <p style={{ color: "green" }}>Success</p>}
+      {success == "false" && <p style={{ color: "red" }}>Failed</p>}
+    </div>
+  );
 }
 
 export default App;
