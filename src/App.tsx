@@ -6,7 +6,8 @@ function App() {
 
   const login = async () => {
     const response = await fetch(
-      `${process.env.REACT_APP_MAILLARD_API_BASE_URI}/auth/google/login`
+      `${process.env.REACT_APP_MAILLARD_API_BASE_URI}/auth/google/login`,
+      { credentials: "include" }
     );
     const data = await response.json();
     window.location.href = data.url;
