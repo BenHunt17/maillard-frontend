@@ -1,15 +1,39 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { AuthProvider } from "./core/authentication/AuthProvider";
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from "react-router-dom";
+import LoginController from "./login/controller/LoginController";
+import RecipeCollectionController from "./recipes/collection/controller/RecipeCollectionController";
+import HeaderView from "./header/view/HeaderView";
+import App from "./App";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/">
+      <Route index element={<App />} />
+      <Route path="/login" element={<LoginController />} />
+      <Route element={<HeaderView />}>
+        <Route path="/recipes" element={<RecipeCollectionController />} />
+      </Route>
+    </Route>
+  )
+);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );
 

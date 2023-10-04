@@ -1,34 +1,29 @@
-import "./App.css";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./core/authentication/AuthProvider";
+import { useEffect } from "react";
 
-function App() {
-  const searchParams = new URLSearchParams(window.location.search);
-  const success = searchParams.get("success");
+export default function App() {
+  const { setAdminIsLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
-  const login = async () => {
-    const response = await fetch(
-      `${process.env.REACT_APP_MAILLARD_API_BASE_URI}/auth/google/login`,
-      { credentials: "include" }
-    );
-    const data = await response.json();
-    window.location.href = data.url;
-  };
-
-  const test = () => {
-    fetch(`${process.env.REACT_APP_MAILLARD_API_BASE_URI}/test`, {
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_MAILLARD_API_BASE_URI}/auth/google/admin`, {
       credentials: "include",
-    }).then((res) => {
-      console.log(res.json);
-    });
-  };
+    })
+      .then((response) => {
+        if (response.status === 401) {
+          setAdminIsLoggedIn(false);
+          navigate("/login");
+        } else {
+          setAdminIsLoggedIn(true);
+          navigate("/recipes");
+        }
+      })
+      .catch((_) => {
+        setAdminIsLoggedIn(false);
+        navigate("/login");
+      });
+  }, [navigate, setAdminIsLoggedIn]);
 
-  return (
-    <div>
-      <button onClick={login}>Login</button>
-      <button onClick={test}>Test</button>
-      {success === "true" && <p style={{ color: "green" }}>Success</p>}
-      {success === "false" && <p style={{ color: "red" }}>Failed</p>}
-    </div>
-  );
+  return <p>Loading</p>;
 }
-
-export default App;
