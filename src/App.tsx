@@ -20,10 +20,13 @@ export default function App() {
         }
       })
       .catch((_) => {
-        setAdminIsLoggedIn(false);
-        navigate("/login");
+        //TODO - show error?
       });
   }, [navigate, setAdminIsLoggedIn]);
 
-  return <p>Loading</p>;
+  return (
+    <>
+      <p>Loading</p>
+    </>
+  );
 }
