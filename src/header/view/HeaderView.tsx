@@ -1,17 +1,14 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import NavigationItems from "./navigationItems/NavigationItems";
 
 export default function HeaderView() {
   return (
-    <>
-      <h1>Maillard Recipe Manager</h1>
-      <header>
-        <nav>
-          <NavLink to="/recipes">Recipes</NavLink>
-        </nav>
-      </header>
-      <main>
-        <Outlet />
-      </main>
-    </>
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h4">Maillard Recipe Manager</Typography>
+        <Box sx={{ flexGrow: 1 }} />
+        <NavigationItems />
+      </Toolbar>
+    </AppBar>
   );
 }
