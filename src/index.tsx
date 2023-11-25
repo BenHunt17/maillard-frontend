@@ -31,7 +31,6 @@ const router = createBrowserRouter(
 const theme = createTheme({
   //TODO - put this into another file and properly make the typography/colour pallete
   palette: {
-    secondary: { main: "#ffffff" },
     background: { default: "#e0e0e0" },
   },
   typography: {
@@ -45,6 +44,7 @@ const theme = createTheme({
       fontWeight: "bold",
     },
   },
+  spacing: 3,
 });
 
 const root = ReactDOM.createRoot(
