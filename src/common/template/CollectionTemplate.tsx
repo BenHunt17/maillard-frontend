@@ -1,9 +1,20 @@
-import { Box, Grid, TextField, Typography, styled } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Pagination,
+  TextField,
+  Typography,
+  styled,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import Loading from "../components/Loading";
+import { PAGINATION_LIMIT } from "../utils/constants";
 
 interface CollectionTemplateProps<T> {
   searchText: string;
   setSearchText: (value: string) => void;
+  paginationOptions: PaginationOptions;
   items: T[];
   renderItem: (item: T) => React.ReactNode;
   loading: boolean;
@@ -12,20 +23,47 @@ interface CollectionTemplateProps<T> {
 export default function CollectionTemplate<T>({
   searchText,
   setSearchText,
+  paginationOptions,
   items,
   renderItem,
   loading,
 }: CollectionTemplateProps<T>) {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md")); //TODO- create a ssmall screen hook
+
+  const pageCount = Math.ceil(paginationOptions.total / PAGINATION_LIMIT);
+
   return (
     <>
-      <Box height={SEARCH_CONTAINER_HEIGHT} display="flex" alignItems="center">
+      <Box
+        height={SEARCH_CONTAINER_HEIGHT}
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+      >
         <SearchBar
           value={searchText}
           onChange={(e) => setSearchText(e.currentTarget.value)}
           placeholder="Search Recipes"
         />
+        {!matches && (
+          <Pagination
+            count={pageCount}
+            page={paginationOptions.page}
+            onChange={(_, value) => paginationOptions.setPage(value)}
+            color="primary"
+          />
+        )}
       </Box>
-      <Box height={`calc(100% - ${SEARCH_CONTAINER_HEIGHT}px)`} overflow="auto">
+      <Box
+        height={`calc(100% - ${SEARCH_CONTAINER_HEIGHT}px)`}
+        overflow="auto"
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between"
+        alignItems="center"
+        gap={8}
+      >
         {loading ? (
           <Loading />
         ) : items.length <= 0 ? (
@@ -50,9 +88,23 @@ export default function CollectionTemplate<T>({
             ))}
           </Grid>
         )}
+        {matches && (
+          <Pagination
+            count={pageCount}
+            page={paginationOptions.page}
+            onChange={(_, value) => paginationOptions.setPage(value)}
+            color="primary"
+          />
+        )}
       </Box>
     </>
   );
+}
+
+export interface PaginationOptions {
+  page: number;
+  total: number;
+  setPage: (value: number) => void;
 }
 
 const SEARCH_CONTAINER_HEIGHT = 102;
