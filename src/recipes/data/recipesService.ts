@@ -7,11 +7,15 @@ export function useSearchRecipes(
   offset: number,
   limit: number
 ) {
-  const { data, loading } = useFetch<Response>("/recipes/search/", "post", {
-    body: { searchTerm, offset, limit },
-  });
+  const { data, loading, error } = useFetch<Response>(
+    "/recipes/search/",
+    "post",
+    {
+      body: { searchTerm, offset, limit },
+    }
+  );
 
-  return { data, loading };
+  return { data, loading, error };
 }
 
 interface Response {

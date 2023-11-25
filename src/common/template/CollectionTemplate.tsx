@@ -1,4 +1,5 @@
 import { Box, Grid, TextField, Typography, styled } from "@mui/material";
+import Loading from "../components/Loading";
 
 interface CollectionTemplateProps<T> {
   searchText: string;
@@ -25,8 +26,17 @@ export default function CollectionTemplate<T>({
         />
       </Box>
       <Box height={`calc(100% - ${SEARCH_CONTAINER_HEIGHT}px)`} overflow="auto">
-        {loading || items.length === 0 ? (
-          <CollectionFallback loading={loading} />
+        {loading ? (
+          <Loading />
+        ) : items.length <= 0 ? (
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            height="100%"
+          >
+            <Typography variant="h6">No results</Typography>
+          </Box>
         ) : (
           <Grid
             container
@@ -42,23 +52,6 @@ export default function CollectionTemplate<T>({
         )}
       </Box>
     </>
-  );
-}
-
-interface CollectionFallbackProps {
-  loading: boolean;
-}
-
-function CollectionFallback({ loading }: CollectionFallbackProps) {
-  return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      height="100%"
-    >
-      <Typography variant="h6">{loading ? "Loading" : "No results"}</Typography>
-    </Box>
   );
 }
 

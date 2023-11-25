@@ -1,4 +1,5 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import Loading from "../../common/components/Loading";
 
 export default function AppLoaderView() {
   return (
@@ -9,8 +10,7 @@ export default function AppLoaderView() {
       height="100vh"
       alignItems="center"
     >
-      <Typography variant="h6">Loading</Typography>
-      {/* TODO - make loading component */}
+      <Loading />
     </Box>
   );
 }

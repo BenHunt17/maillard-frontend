@@ -41,6 +41,10 @@ export function useFetch<T>(
       try {
         const response = await fetch(requestUrl, requestOptions);
         const json = await response.json();
+        if (!response.ok) {
+          throw new Error(json.error);
+        }
+
         setData(json);
       } catch (e) {
         if (e instanceof Error) {
