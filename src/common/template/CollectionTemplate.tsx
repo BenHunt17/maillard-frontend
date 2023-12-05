@@ -1,6 +1,7 @@
 import {
   Box,
   Grid,
+  IconButton,
   Pagination,
   TextField,
   Typography,
@@ -10,6 +11,9 @@ import {
 } from "@mui/material";
 import Loading from "../components/Loading";
 import { PAGINATION_LIMIT } from "../utils/constants";
+import CreateRecipeModelController from "../../recipes/modals/create/controller/CreateRecipeModalController";
+import { useState } from "react";
+import AddIcon from "@mui/icons-material/Add";
 
 interface CollectionTemplateProps<T> {
   searchText: string;
@@ -28,6 +32,7 @@ export default function CollectionTemplate<T>({
   renderItem,
   loading,
 }: CollectionTemplateProps<T>) {
+  const [isOpen, setIsOpen] = useState(false);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md")); //TODO- create a ssmall screen hook
 
@@ -46,14 +51,24 @@ export default function CollectionTemplate<T>({
           onChange={(e) => setSearchText(e.currentTarget.value)}
           placeholder="Search Recipes"
         />
-        {!matches && (
-          <Pagination
-            count={pageCount}
-            page={paginationOptions.page}
-            onChange={(_, value) => paginationOptions.setPage(value)}
-            color="primary"
-          />
-        )}
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          gap={8}
+        >
+          {!matches && (
+            <Pagination
+              count={pageCount}
+              page={paginationOptions.page}
+              onChange={(_, value) => paginationOptions.setPage(value)}
+              color="primary"
+            />
+          )}
+          <IconButton onClick={() => setIsOpen(true)}>
+            <AddIcon />
+          </IconButton>
+        </Box>
       </Box>
       <Box
         height={`calc(100% - ${SEARCH_CONTAINER_HEIGHT}px)`}
@@ -76,11 +91,7 @@ export default function CollectionTemplate<T>({
             <Typography variant="h6">No results</Typography>
           </Box>
         ) : (
-          <Grid
-            container
-            gridTemplateColumns="1fr 1fr"
-            spacing={{ xs: 8, sm: 8, md: 6 }}
-          >
+          <Grid container spacing={{ xs: 8, sm: 8, md: 6 }}>
             {items.map((item) => (
               <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
                 {renderItem(item)}
@@ -97,6 +108,7 @@ export default function CollectionTemplate<T>({
           />
         )}
       </Box>
+      <CreateRecipeModelController isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
 }

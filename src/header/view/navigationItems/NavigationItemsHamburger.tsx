@@ -1,17 +1,10 @@
 import { Menu as MenuIcon } from "@mui/icons-material";
-import {
-  IconButton,
-  Menu,
-  MenuItem,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 export default function NavigationItemsHamburger() {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const theme = useTheme();
 
   return (
     <>
