@@ -16,10 +16,8 @@ export default function CreateRecipeModelController({
   isOpen,
   setIsOpen,
 }: CreateRecipeModalControllerProps) {
-  const { callback, loading, error } = useRequest(
-    "/recipes",
-    "post",
-    (recipe) => setIsOpen(false)
+  const { callback, loading, error } = useRequest("/recipes", "post", () =>
+    setIsOpen(false)
   );
 
   const { control, handleSubmit } = useForm<RecipeCreateInput>({

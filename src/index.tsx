@@ -15,6 +15,9 @@ import App from "./App";
 import { ThemeProvider } from "@emotion/react";
 import { CssBaseline, createTheme } from "@mui/material";
 import AppLoaderController from "./appLoader/controller/AppLoaderController";
+import RecipeDetailController from "./recipes/detail/controller/RecipeDetailController";
+
+//TODO - lazy load?
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +26,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<LoginController />} />
       <Route element={<App />}>
         <Route path="/recipes" element={<RecipeCollectionController />} />
+        <Route path="/recipes/:id" element={<RecipeDetailController />} />
       </Route>
     </Route>
   )

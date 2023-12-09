@@ -1,13 +1,13 @@
-import { PaginatedResponse } from "../../common/data/paginatedResponse";
 import { useFetch } from "../../common/hooks/useFetch";
-import { AbridgedRecipe } from "./abridgedRecipe";
+import { RecipeResponse } from "./types/RecipeResponse";
+import { AbridgedRecipesResponse } from "./types/abridgedRecipesResponse";
 
 export function useSearchRecipes(
   searchTerm: string,
   offset: number,
   limit: number
 ) {
-  const { data, loading, error } = useFetch<Response>(
+  const { data, loading, error } = useFetch<AbridgedRecipesResponse>(
     "/recipes/search/",
     "post",
     {
@@ -18,6 +18,11 @@ export function useSearchRecipes(
   return { data, loading, error };
 }
 
-interface Response {
-  paginatedRecipes: PaginatedResponse<AbridgedRecipe>;
+export function useGetRecipe(id: string) {
+  const { data, loading, error } = useFetch<RecipeResponse>(
+    `/recipes/${id}`,
+    "get"
+  );
+
+  return { data, loading, error };
 }
