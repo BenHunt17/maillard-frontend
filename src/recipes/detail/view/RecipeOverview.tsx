@@ -1,21 +1,51 @@
 import { Box, Typography } from "@mui/material";
-import { Nutrient, Recipe } from "../../data/types/RecipeResponse";
+import {
+  Nutrient,
+  Recipe,
+  RecipeResponse,
+} from "../../data/types/RecipeResponse";
 import ZebraView from "../../../common/components/ZebraView";
 import { InfoBox } from "../../../common/components/styled/InfoBox";
-import Img from "../../../common/components/Img";
+import Img from "../../../common/components/img/Img";
+import {
+  useRemoveRecipeImage,
+  useUploadRecipeImage,
+} from "../../data/recipesService";
 
 interface RecipeOverviewProps {
   recipe: Recipe;
+  updateRecipe: (value: RecipeResponse) => void;
 }
 
-export default function RecipeOverview({ recipe }: RecipeOverviewProps) {
+export default function RecipeOverview({
+  recipe,
+  updateRecipe,
+}: RecipeOverviewProps) {
+  const {
+    callback: removeRecipeImage,
+    loading: removeRecipeImageLoading,
+    error: removeRecipeImageError,
+  } = useRemoveRecipeImage(recipe.id, updateRecipe);
+  const {
+    callback: uploadRecipeImage,
+    loading: uploadRecipeImageLoading,
+    error: uploadRecipeImageError,
+  } = useUploadRecipeImage(recipe.id, updateRecipe);
+
   return (
     <>
       <Typography variant="h3">{recipe.name}</Typography>
-      <InfoBox>
-        <Typography variant="body1">{recipe.description}</Typography>
-      </InfoBox>
-      <Img src={recipe.imageUrl} alt={recipe.name} />
+      {recipe.description && (
+        <InfoBox>
+          <Typography variant="body1">{recipe.description}</Typography>
+        </InfoBox>
+      )}
+      <Img
+        src={recipe.imageUrl}
+        alt={recipe.name}
+        onUpload={uploadRecipeImage}
+        onRemove={removeRecipeImage}
+      />
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Typography variant="body1">
           Prep time: <b>{minutesToTimeString(recipe.data.prepTime)}</b>
@@ -28,7 +58,9 @@ export default function RecipeOverview({ recipe }: RecipeOverviewProps) {
           <b> {minutesToTimeString(recipe.data.washingUpTime)}</b>
         </Typography>
       </Box>
-      <ZebraView content={cleanNutrientsData(recipe.nutrients)} />
+      {recipe.nutrients.length > 0 && (
+        <ZebraView content={cleanNutrientsData(recipe.nutrients)} />
+      )}
     </>
   );
 }

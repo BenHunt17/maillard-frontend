@@ -9,7 +9,7 @@ export default function RecipeDetailController() {
 
   const recipeId = params.id ?? "";
 
-  const { data, loading, error } = useGetRecipe(recipeId);
+  const { data, loading, error, updateResult } = useGetRecipe(recipeId);
 
   if (loading) {
     return <Loading />;
@@ -17,5 +17,5 @@ export default function RecipeDetailController() {
   if (error || !data?.recipe) {
     return <Error>{"There was an error finding the recipe :("}</Error>;
   }
-  return <RecipeDetailView recipe={data?.recipe} />;
+  return <RecipeDetailView recipe={data?.recipe} updateRecipe={updateResult} />;
 }

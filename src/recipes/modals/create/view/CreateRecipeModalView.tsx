@@ -2,7 +2,7 @@ import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
 import ModalTemplate from "../../../../common/template/ModalTemplate";
 import FormTextField from "../../../../common/components/formInputs/FormTextField";
 import { Control } from "react-hook-form";
-import { RecipeCreateInput } from "../../../data/inputs/recipeCreateInput";
+import { RecipeCreateInput } from "../../../data/formInputs/recipeCreateInput";
 
 interface CreateRecipeModalViewProps {
   isOpen: boolean;

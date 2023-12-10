@@ -8,19 +8,24 @@ export function useRequest<T>(
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | undefined>(undefined);
 
-  const callback = async (options: Options) => {
+  const callback = async (options?: Options) => {
     const requestUrl = `${process.env.REACT_APP_MAILLARD_API_BASE_URI}${url}`;
     const requestOptions: RequestInit = {
       method,
       credentials: "include",
       headers: new Headers({
         Accept: "application/json",
-        "Content-Type": "application/json;charset=utf-8",
+        ...(!options?.formData
+          ? { "Content-Type": "application/json;charset=utf-8" }
+          : {}),
       }),
     };
 
-    if (options.body) {
+    if (options?.body) {
       requestOptions.body = JSON.stringify(options.body);
+    }
+    if (options?.formData) {
+      requestOptions.body = options.formData;
     }
 
     try {
@@ -44,8 +49,9 @@ export function useRequest<T>(
   return { callback, loading, error };
 }
 
-type HttpMethod = "get" | "post" | "put" | "patch" | "delete";
+type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 interface Options {
-  body: object;
+  body?: object;
+  formData?: FormData;
 }

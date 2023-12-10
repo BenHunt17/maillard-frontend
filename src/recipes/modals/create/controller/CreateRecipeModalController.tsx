@@ -4,8 +4,9 @@ import CreateRecipeModalView from "../view/CreateRecipeModalView";
 import {
   RecipeCreateInput,
   recipeCreateInputSchema,
-} from "../../../data/inputs/recipeCreateInput";
-import { useRequest } from "../../../../common/hooks/useRequest";
+} from "../../../data/formInputs/recipeCreateInput";
+import { useNavigate } from "react-router-dom";
+import { useCreateRecipe } from "../../../data/recipesService";
 
 interface CreateRecipeModalControllerProps {
   isOpen: boolean;
@@ -16,9 +17,12 @@ export default function CreateRecipeModelController({
   isOpen,
   setIsOpen,
 }: CreateRecipeModalControllerProps) {
-  const { callback, loading, error } = useRequest("/recipes", "post", () =>
-    setIsOpen(false)
-  );
+  const navigate = useNavigate();
+
+  const { createRecipe, loading, error } = useCreateRecipe((result) => {
+    setIsOpen(false);
+    navigate(`/recipes/${result.recipe.id}`);
+  });
 
   const { control, handleSubmit } = useForm<RecipeCreateInput>({
     defaultValues: {
@@ -33,21 +37,22 @@ export default function CreateRecipeModelController({
     resolver: zodResolver(recipeCreateInputSchema),
   });
 
-  const createRecipe = (formData: RecipeCreateInput) => {
+  const handleCreateRecipe = (formData: RecipeCreateInput) => {
     const data = {
       prepTime: parseTimeString(formData.data.prepTime),
       cookTime: parseTimeString(formData.data.cookTime),
       washingUpTime: parseTimeString(formData.data.washingUpTime),
     };
     if (
-      data.cookTime === undefined ||
-      data.prepTime === undefined ||
+      data.cookTime === undefined &&
+      data.prepTime === undefined &&
       data.washingUpTime === undefined
     ) {
       return;
     }
-    callback({
-      body: { ...formData, ingredients: [], instructions: [], data },
+    createRecipe({
+      ...formData,
+      data,
     });
   };
 
@@ -56,7 +61,7 @@ export default function CreateRecipeModelController({
       isOpen={isOpen}
       handleClose={() => setIsOpen(false)}
       control={control}
-      onSubmit={handleSubmit(createRecipe)}
+      onSubmit={handleSubmit(handleCreateRecipe)}
       loading={loading}
       error={error !== undefined}
     />

@@ -1,12 +1,16 @@
 import { Box, Grid } from "@mui/material";
-import { Recipe } from "../../data/types/RecipeResponse";
+import { Recipe, RecipeResponse } from "../../data/types/RecipeResponse";
 import RecipeOverview from "./RecipeOverview";
 
 interface RecipeDetailViewProps {
   recipe: Recipe;
+  updateRecipe: (value: RecipeResponse) => void;
 }
 
-export default function RecipeDetailView({ recipe }: RecipeDetailViewProps) {
+export default function RecipeDetailView({
+  recipe,
+  updateRecipe,
+}: RecipeDetailViewProps) {
   return (
     <Box padding="28px 0">
       <Grid container>
@@ -16,7 +20,7 @@ export default function RecipeDetailView({ recipe }: RecipeDetailViewProps) {
           md={4}
           sx={{ display: "flex", flexDirection: "column", gap: 8 }}
         >
-          <RecipeOverview recipe={recipe} />
+          <RecipeOverview recipe={recipe} updateRecipe={updateRecipe} />
         </Grid>
       </Grid>
     </Box>
