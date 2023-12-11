@@ -1,4 +1,4 @@
-import { styled, useTheme } from "@mui/material";
+import { Skeleton, styled, useTheme } from "@mui/material";
 
 import ImagePlaceholder from "../../../assets/imagePlaceholder.png";
 
@@ -8,6 +8,7 @@ import UpdateImgModal from "./UpdateImgModal";
 interface ImgProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   onUpload?: (value: File) => void;
   onRemove?: () => void;
+  isLoading?: boolean;
 }
 
 export default function Img(props: ImgProps) {
@@ -15,6 +16,16 @@ export default function Img(props: ImgProps) {
 
   const canUpdate = Boolean(props.onUpload) && Boolean(props.onRemove);
 
+  if (props.isLoading) {
+    return (
+      <Skeleton
+        variant="rectangular"
+        width="100%"
+        height="100%"
+        sx={{ aspectRatio: 2 }}
+      />
+    );
+  }
   return (
     <>
       <Image

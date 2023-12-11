@@ -24,7 +24,7 @@ export default function RecipeOverview({
   const {
     callback: removeRecipeImage,
     loading: removeRecipeImageLoading,
-    error: removeRecipeImageError,
+    error: removeRecipeImageError, //TODO - look into toasts
   } = useRemoveRecipeImage(recipe.id, updateRecipe);
   const {
     callback: uploadRecipeImage,
@@ -45,6 +45,7 @@ export default function RecipeOverview({
         alt={recipe.name}
         onUpload={uploadRecipeImage}
         onRemove={removeRecipeImage}
+        isLoading={removeRecipeImageLoading || uploadRecipeImageLoading}
       />
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Typography variant="body1">

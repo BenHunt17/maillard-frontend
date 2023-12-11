@@ -9,6 +9,8 @@ export function useRequest<T>(
   const [error, setError] = useState<Error | undefined>(undefined);
 
   const callback = async (options?: Options) => {
+    setLoading(true);
+
     const requestUrl = `${process.env.REACT_APP_MAILLARD_API_BASE_URI}${url}`;
     const requestOptions: RequestInit = {
       method,
