@@ -17,13 +17,13 @@ interface RecipeOverviewProps {
   updateRecipe: (value: RecipeResponse) => void;
 }
 
-export default function RecipeOverview({
+export default function RecipeOverviewView({
   recipe,
   updateRecipe,
 }: RecipeOverviewProps) {
   const {
     callback: removeRecipeImage,
-    loading: removeRecipeImageLoading,
+    loading: removeRecipeImageLoading, //TODO - abstract modal out of view and component
     error: removeRecipeImageError, //TODO - look into toasts
   } = useRemoveRecipeImage(recipe.id, updateRecipe);
   const {

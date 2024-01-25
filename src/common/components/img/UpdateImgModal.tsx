@@ -8,7 +8,7 @@ import { Delete, Edit } from "@mui/icons-material";
 interface UpdateImgModalProps {
   currentImgSrc: string | undefined;
   isOpen: boolean;
-  handleClose: () => void;
+  onClose: () => void;
   handleUpload?: (value: File) => void;
   handleRemove?: () => void;
 }
@@ -16,7 +16,7 @@ interface UpdateImgModalProps {
 export default function UpdateImgModal({
   currentImgSrc,
   isOpen,
-  handleClose,
+  onClose,
   handleUpload,
   handleRemove,
 }: UpdateImgModalProps) {
@@ -33,15 +33,11 @@ export default function UpdateImgModal({
     } else {
       handleUpload?.(newImage);
     }
-    handleClose();
+    onClose();
   };
 
   return (
-    <ModalTemplate
-      isOpen={isOpen}
-      handleClose={handleClose}
-      title="Update Image"
-    >
+    <ModalTemplate isOpen={isOpen} onClose={onClose} title="Update Image">
       <Box display="flex" flexDirection="column" alignItems="center" gap={8}>
         <ImagePreview src={previewImageSrc} />
         <Box display="flex" gap={8}>

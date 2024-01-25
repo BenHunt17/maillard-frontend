@@ -39,7 +39,7 @@ export default function Img(props: ImgProps) {
       <UpdateImgModal
         currentImgSrc={props.src}
         isOpen={showModal}
-        handleClose={() => setShowModal(false)}
+        onClose={() => setShowModal(false)}
         handleUpload={props.onUpload}
         handleRemove={props.onRemove}
       />

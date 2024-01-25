@@ -59,7 +59,7 @@ export default function CreateRecipeModelController({
   return (
     <CreateRecipeModalView
       isOpen={isOpen}
-      handleClose={() => setIsOpen(false)}
+      onClose={() => setIsOpen(false)}
       control={control}
       onSubmit={handleSubmit(handleCreateRecipe)}
       loading={loading}

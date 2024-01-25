@@ -6,7 +6,7 @@ import { RecipeCreateInput } from "../../../data/formInputs/recipeCreateInput";
 
 interface CreateRecipeModalViewProps {
   isOpen: boolean;
-  handleClose: () => void;
+  onClose: () => void;
   control: Control<RecipeCreateInput>;
   onSubmit: () => void;
   loading: boolean;
@@ -15,7 +15,7 @@ interface CreateRecipeModalViewProps {
 
 export default function CreateRecipeModalView({
   isOpen,
-  handleClose,
+  onClose,
   control,
   onSubmit,
   loading,
@@ -24,11 +24,7 @@ export default function CreateRecipeModalView({
   const theme = useTheme();
 
   return (
-    <ModalTemplate
-      isOpen={isOpen}
-      handleClose={handleClose}
-      title="Create Recipe"
-    >
+    <ModalTemplate isOpen={isOpen} onClose={onClose} title="Create Recipe">
       <FormTextField
         control={control}
         name="name"

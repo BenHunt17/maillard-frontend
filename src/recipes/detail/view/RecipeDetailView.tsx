@@ -1,26 +1,35 @@
 import { Box, Grid } from "@mui/material";
-import { Recipe, RecipeResponse } from "../../data/types/RecipeResponse";
-import RecipeOverview from "./RecipeOverview";
+import { Children } from "react";
 
 interface RecipeDetailViewProps {
-  recipe: Recipe;
-  updateRecipe: (value: RecipeResponse) => void;
+  children: React.ReactNode;
 }
 
-export default function RecipeDetailView({
-  recipe,
-  updateRecipe,
-}: RecipeDetailViewProps) {
+export default function RecipeDetailView({ children }: RecipeDetailViewProps) {
+  const views = Children.map(children, (child) => child);
+  if (views?.length !== 3) {
+    throw Error("RecipeDetailView must have 2 children passed");
+  }
+
   return (
     <Box padding="28px 0">
-      <Grid container>
+      <Grid container spacing={8}>
         <Grid
           item
           xs={12}
           md={4}
           sx={{ display: "flex", flexDirection: "column", gap: 8 }}
         >
-          <RecipeOverview recipe={recipe} updateRecipe={updateRecipe} />
+          {views[0]}
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={8}
+          sx={{ display: "flex", flexDirection: "column", gap: 8 }}
+        >
+          {views[1]}
+          {views[2]}
         </Grid>
       </Grid>
     </Box>
