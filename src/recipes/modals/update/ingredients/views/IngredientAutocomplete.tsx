@@ -1,8 +1,8 @@
-import { Control, UseFormReturn } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 import FormAutocomplete from "../../../../../common/components/formInputs/FormAutocomplete";
 import { IngredientInput } from "../../../../data/formInputs/ingredientInput";
 import { useSearchIngredients } from "../../../../data/ingredientsService";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDebounce } from "use-debounce";
 import { SEARCH_DEBOUNCE_DELAY } from "../../../../../common/utils/constants";
 import { IngredientResponse } from "../../../../data/types/IngredientResponse";
@@ -19,8 +19,8 @@ export default function IngredientAutocomplete({
   const ingredientName = formFunctions.watch(`ingredients.${fieldIndex}.name`);
 
   const [searchTerm] = useDebounce(ingredientName, SEARCH_DEBOUNCE_DELAY);
-  console.log(searchTerm);
-  const { data, loading, error } = useSearchIngredients(searchTerm, 0, 50);
+
+  const { data, loading } = useSearchIngredients(searchTerm, 0, 50);
 
   useListenAndSetIngredientId(data, formFunctions, fieldIndex);
 

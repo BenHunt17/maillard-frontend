@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography, styled } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { InfoBox } from "../../../common/components/styled/InfoBox";
 import { Recipe } from "../../data/types/RecipeResponse";
 import { Edit } from "@mui/icons-material";

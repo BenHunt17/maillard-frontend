@@ -40,7 +40,7 @@ export default function UpdateInstructionsModalController({
     name: "instructions",
   });
 
-  const { updateInstructions, loading, error } = useUpdateRecipeInstructions(
+  const { updateInstructions, loading } = useUpdateRecipeInstructions(
     (result) => {},
     recipeId
   );

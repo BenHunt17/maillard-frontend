@@ -24,13 +24,10 @@ export default function RecipeOverviewView({
   const {
     callback: removeRecipeImage,
     loading: removeRecipeImageLoading, //TODO - abstract modal out of view and component
-    error: removeRecipeImageError, //TODO - look into toasts
+    //TODO - look into toasts
   } = useRemoveRecipeImage(recipe.id, updateRecipe);
-  const {
-    callback: uploadRecipeImage,
-    loading: uploadRecipeImageLoading,
-    error: uploadRecipeImageError,
-  } = useUploadRecipeImage(recipe.id, updateRecipe);
+  const { callback: uploadRecipeImage, loading: uploadRecipeImageLoading } =
+    useUploadRecipeImage(recipe.id, updateRecipe);
 
   return (
     <>

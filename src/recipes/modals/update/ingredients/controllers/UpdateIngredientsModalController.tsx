@@ -45,8 +45,10 @@ export default function UpdateIngredientsModalController({
     name: "ingredients",
   });
 
-  const { updateRecipeIngredients, loading, error } =
-    useUpdateRecipeIngredients((result) => {}, recipeId);
+  const { updateRecipeIngredients, loading } = useUpdateRecipeIngredients(
+    () => {},
+    recipeId
+  );
 
   const handleUpdateRecipeIngredients = (formData: IngredientInput) =>
     updateRecipeIngredients(formData.ingredients);
