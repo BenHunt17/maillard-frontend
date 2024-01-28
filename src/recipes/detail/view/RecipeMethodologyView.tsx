@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography, styled } from "@mui/material";
 import { InfoBox } from "../../../common/components/styled/InfoBox";
 import { Recipe } from "../../data/types/RecipeResponse";
 import { Edit } from "@mui/icons-material";
@@ -12,7 +12,10 @@ export default function RecipeMethodologyView({
   recipe,
   openModal,
 }: RecipeMethodologyViewProps) {
-  const hasInstructions = recipe.instructions.length > 0;
+  const orderedInstructions = recipe.instructions.sort(
+    (a, b) => a.priorityNumber - b.priorityNumber
+  );
+  const hasInstructions = orderedInstructions.length > 0;
 
   return (
     <InfoBox>
@@ -23,13 +26,15 @@ export default function RecipeMethodologyView({
         </IconButton>
       </Box>
       {hasInstructions ? (
-        <>
-          {recipe.ingredients.map((ingredient) => (
-            <li key={ingredient.id}>
-              <Typography variant="body1">{`${ingredient.displayLabel} ${ingredient.name}`}</Typography>
-            </li>
+        <div>
+          {orderedInstructions.map((instruction) => (
+            <Typography key={instruction.id} variant="body1">
+              <b>{instruction.priorityNumber}</b>
+              &nbsp; &nbsp;
+              {instruction.step}
+            </Typography>
           ))}
-        </>
+        </div>
       ) : (
         <Box display="flex" justifyContent="center" padding={32}>
           <Typography variant="body2">No Instructions Configured</Typography>

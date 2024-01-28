@@ -1,4 +1,3 @@
-import UpdateIgredientsModalView from "../views/UpdateIgredientsModalView";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
   IngredientInput,
@@ -7,20 +6,21 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Ingredient } from "../../../../data/types/RecipeResponse";
 import { useUpdateRecipeIngredients } from "../../../../data/recipesService";
+import UpdateIngredientsModalView from "../views/UpdateIngredientsModalView";
 
-interface UpdateIgredientsModalControllerProps {
+interface UpdateIngredientsModalControllerProps {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
   recipeId: string;
   currentIngredients: Ingredient[];
 }
 
-export default function UpdateIgredientsModalController({
+export default function UpdateIngredientsModalController({
   isOpen,
   setIsOpen,
   recipeId,
   currentIngredients,
-}: UpdateIgredientsModalControllerProps) {
+}: UpdateIngredientsModalControllerProps) {
   const defaultValues = {
     ingredients:
       currentIngredients.length > 0
@@ -48,9 +48,8 @@ export default function UpdateIgredientsModalController({
   const { updateRecipeIngredients, loading, error } =
     useUpdateRecipeIngredients((result) => {}, recipeId);
 
-  const handleUpdateRecipeIngredients = (formData: IngredientInput) => {
+  const handleUpdateRecipeIngredients = (formData: IngredientInput) =>
     updateRecipeIngredients(formData.ingredients);
-  };
 
   const addIngredient = () =>
     append({
@@ -61,7 +60,7 @@ export default function UpdateIgredientsModalController({
     });
 
   return (
-    <UpdateIgredientsModalView
+    <UpdateIngredientsModalView
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
       onSubmit={formFunctions.handleSubmit(handleUpdateRecipeIngredients)}

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import UpdateIgredientsModalController from "../../modals/update/ingredients/controllers/UpdateIgredientsModalController";
 import { Ingredient } from "../../data/types/RecipeResponse";
+import UpdateIngredientsModalController from "../../modals/update/ingredients/controllers/UpdateIngredientsModalController";
 
 export default function useUpdateIngredients(
   currentIngredients: Ingredient[],
@@ -9,7 +9,7 @@ export default function useUpdateIngredients(
   const [showModal, setShowModal] = useState(false);
 
   const updateIngredientsModal = (
-    <UpdateIgredientsModalController
+    <UpdateIngredientsModalController
       isOpen={showModal}
       setIsOpen={setShowModal}
       recipeId={recipeId}

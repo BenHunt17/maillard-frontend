@@ -7,6 +7,7 @@ import RecipeOverviewView from "../view/RecipeOverviewView";
 import RecipeIngredientsView from "../view/RecipeIngredientsView";
 import useUpdateIngredients from "./useUpdateIngredients";
 import RecipeMethodologyView from "../view/RecipeMethodologyView";
+import useUpdateInstructions from "./useUpdateInstructions";
 
 export default function RecipeDetailController() {
   const params = useParams();
@@ -17,6 +18,12 @@ export default function RecipeDetailController() {
 
   const { updateIngredientsModal, openUpdateIngredientsModal } =
     useUpdateIngredients(data?.recipe.ingredients ?? [], data?.recipe.id ?? "");
+
+  const { updateInstructionsModal, openUpdateInstructionsModal } =
+    useUpdateInstructions(
+      data?.recipe.instructions ?? [],
+      data?.recipe.id ?? ""
+    );
 
   if (loading) {
     return <Loading />;
@@ -32,9 +39,13 @@ export default function RecipeDetailController() {
           recipe={data.recipe}
           openModal={openUpdateIngredientsModal}
         />
-        <RecipeMethodologyView recipe={data.recipe} openModal={() => {}} />
+        <RecipeMethodologyView
+          recipe={data.recipe}
+          openModal={openUpdateInstructionsModal}
+        />
       </RecipeDetailView>
       {updateIngredientsModal}
+      {updateInstructionsModal}
     </>
   );
 }

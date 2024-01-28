@@ -1,17 +1,12 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import ModalTemplate from "../../../../../common/template/ModalTemplate";
-import {
-  FieldArrayWithId,
-  UseFieldArrayAppend,
-  UseFieldArrayRemove,
-  UseFormReturn,
-} from "react-hook-form";
+import { FieldArrayWithId, UseFormReturn } from "react-hook-form";
 import { IngredientInput } from "../../../../data/formInputs/ingredientInput";
 import IngredientAutocomplete from "./IngredientAutocomplete";
 import FormTextField from "../../../../../common/components/formInputs/FormTextField";
 import { Delete } from "@mui/icons-material";
 
-interface UpdateIgredientsModalViewProps {
+interface UpdateIngredientsModalViewProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: () => void;
@@ -22,7 +17,7 @@ interface UpdateIgredientsModalViewProps {
   removeIngredient: (index: number) => void;
 }
 
-export default function UpdateIgredientsModalView({
+export default function UpdateIngredientsModalView({
   isOpen,
   onClose,
   onSubmit,
@@ -31,7 +26,7 @@ export default function UpdateIgredientsModalView({
   fields,
   addIngredient,
   removeIngredient,
-}: UpdateIgredientsModalViewProps) {
+}: UpdateIngredientsModalViewProps) {
   const theme = useTheme();
 
   return (

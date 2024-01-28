@@ -56,6 +56,20 @@ export function useUpdateRecipeIngredients(
   return { updateRecipeIngredients, loading, error };
 }
 
+export function useUpdateRecipeInstructions(
+  onComplete: (value: RecipeResponse) => void,
+  recipeId: String
+) {
+  const { callback, loading, error } = useRequest<RecipeResponse>(
+    `/recipes/${recipeId}/instructions`,
+    "PATCH",
+    onComplete
+  );
+  const updateInstructions = (value: object[]) => callback({ body: value });
+
+  return { updateInstructions, loading, error };
+}
+
 export function useUploadRecipeImage(
   id: string,
   onComplete: (result: RecipeResponse) => void
