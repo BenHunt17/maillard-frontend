@@ -15,6 +15,9 @@ import App from "./App";
 import { ThemeProvider } from "@emotion/react";
 import { CssBaseline, createTheme } from "@mui/material";
 import AppLoaderController from "./appLoader/controller/AppLoaderController";
+import RecipeDetailController from "./recipes/detail/controller/RecipeDetailController";
+
+//TODO - lazy load?
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +26,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<LoginController />} />
       <Route element={<App />}>
         <Route path="/recipes" element={<RecipeCollectionController />} />
+        <Route path="/recipes/:id" element={<RecipeDetailController />} />
       </Route>
     </Route>
   )
@@ -31,7 +35,6 @@ const router = createBrowserRouter(
 const theme = createTheme({
   //TODO - put this into another file and properly make the typography/colour pallete
   palette: {
-    secondary: { main: "#ffffff" },
     background: { default: "#e0e0e0" },
   },
   typography: {
@@ -45,6 +48,7 @@ const theme = createTheme({
       fontWeight: "bold",
     },
   },
+  spacing: 3,
 });
 
 const root = ReactDOM.createRoot(

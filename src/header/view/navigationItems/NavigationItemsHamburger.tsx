@@ -11,7 +11,7 @@ export default function NavigationItemsHamburger() {
       <IconButton
         size="large"
         onClick={(e) => setAnchorEl(e.currentTarget)}
-        color="secondary"
+        sx={{ color: "white" }}
       >
         <MenuIcon />
       </IconButton>
