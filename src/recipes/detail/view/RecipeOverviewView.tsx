@@ -63,8 +63,6 @@ export default function RecipeOverviewView({
   );
 }
 
-const KCAL_CONVERSION_CONSTANT = 4.184;
-
 function minutesToTimeString(minutes: number) {
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
@@ -90,23 +88,15 @@ function cleanNutrientsData(nutrients: Nutrient[]) {
     if (!relevantNutrients.includes(curr.name)) {
       return acc;
     }
-
-    if (curr.name === "Energy") {
-      return [
-        ...acc,
-        {
-          name: "Energy",
-          value: `${
-            Math.round((curr.value / KCAL_CONVERSION_CONSTANT) * 100) / 100
-          } Kcal`,
-        },
-      ];
+    if (curr.name === "Energy" && curr.unitName === "kJ") {
+      return acc;
     }
+
     return [
       ...acc,
       {
         name: curr.name,
-        value: `${Math.round(curr.value * 100) / 100} ${curr.unitName}`,
+        value: `${Math.round(curr.value * 1000) / 1000} ${curr.unitName}`,
       },
     ];
   }, []);

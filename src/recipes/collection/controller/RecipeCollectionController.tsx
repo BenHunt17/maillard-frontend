@@ -34,7 +34,7 @@ export default function RecipeCollectionController() {
       paginationOptions={{
         page,
         total,
-        setPage: (value) => setOffset(value - 1),
+        setPage: (value) => setOffset(PAGINATION_LIMIT * (value - 1)),
       }}
       loading={loading}
     />
