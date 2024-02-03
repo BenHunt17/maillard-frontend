@@ -31,7 +31,11 @@ export default function Img(props: ImgProps) {
       <Image
         {...props}
         canUpdate={canUpdate}
-        src={`${props.src}?${new Date()}` ?? ImagePlaceholder}
+        src={
+          props.src !== undefined
+            ? `${props.src}?${new Date()}`
+            : ImagePlaceholder
+        }
         alt={props.alt ?? ""}
         width="100%"
         onClick={canUpdate ? () => setShowModal(true) : undefined}
