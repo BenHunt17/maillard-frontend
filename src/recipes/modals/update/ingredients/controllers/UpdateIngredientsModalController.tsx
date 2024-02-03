@@ -7,16 +7,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useUpdateRecipeIngredients } from "../../../../data/recipesService";
 import UpdateIngredientsModalView from "../views/UpdateIngredientsModalView";
 import { useRecipe } from "../../../../common/RecipeProvider";
-
-interface UpdateIngredientsModalControllerProps {
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
-}
+import { ModalStateProps } from "../../../../../common/data/modalState";
 
 export default function UpdateIngredientsModalController({
   isOpen,
   setIsOpen,
-}: UpdateIngredientsModalControllerProps) {
+}: ModalStateProps) {
   const { recipe, setRecipe } = useRecipe();
 
   const currentIngredients = recipe.ingredients;

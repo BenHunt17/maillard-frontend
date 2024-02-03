@@ -7,16 +7,12 @@ import {
 } from "../../../data/formInputs/recipeCreateInput";
 import { useNavigate } from "react-router-dom";
 import { useCreateRecipe } from "../../../data/recipesService";
-
-interface CreateRecipeModalControllerProps {
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
-}
+import { ModalStateProps } from "../../../../common/data/modalState";
 
 export default function CreateRecipeModelController({
   isOpen,
   setIsOpen,
-}: CreateRecipeModalControllerProps) {
+}: ModalStateProps) {
   const navigate = useNavigate();
 
   const { createRecipe, loading, error } = useCreateRecipe((result) => {
