@@ -1,21 +1,29 @@
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import ZebraView from "../../../common/components/ZebraView";
 import { InfoBox } from "../../../common/components/styled/InfoBox";
 import { useRecipe } from "../../common/RecipeProvider";
 import { Nutrient } from "../../data/types/RecipeResponse";
+import { Edit } from "@mui/icons-material";
 
 interface RecipeOverviewViewProps {
   recipeImage: React.ReactNode;
+  openModal: () => void;
 }
 
 export default function RecipeOverviewView({
   recipeImage,
+  openModal,
 }: RecipeOverviewViewProps) {
   const { recipe } = useRecipe();
 
   return (
     <>
-      <Typography variant="h3">{recipe.name}</Typography>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Typography variant="h3">{recipe.name}</Typography>
+        <IconButton onClick={openModal}>
+          <Edit />
+        </IconButton>
+      </Box>
       {recipe.description && (
         <InfoBox>
           <Typography variant="body1">{recipe.description}</Typography>

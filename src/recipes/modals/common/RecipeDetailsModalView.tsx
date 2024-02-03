@@ -1,30 +1,37 @@
 import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
-import ModalTemplate from "../../../../common/template/ModalTemplate";
-import FormTextField from "../../../../common/components/formInputs/FormTextField";
+import ModalTemplate from "../../../common/template/ModalTemplate";
+import FormTextField from "../../../common/components/formInputs/FormTextField";
 import { Control } from "react-hook-form";
-import { RecipeCreateInput } from "../../../data/formInputs/recipeCreateInput";
+import { RecipeInput } from "../../data/formInputs/recipeInput";
 
-interface CreateRecipeModalViewProps {
+interface RecipeDetailsModalViewProps {
   isOpen: boolean;
   onClose: () => void;
-  control: Control<RecipeCreateInput>;
+  control: Control<RecipeInput>;
   onSubmit: () => void;
   loading: boolean;
   error: boolean;
+  isCreate: boolean;
 }
 
-export default function CreateRecipeModalView({
+export default function RecipeDetailsModalView({
   isOpen,
   onClose,
   control,
   onSubmit,
   loading,
   error,
-}: CreateRecipeModalViewProps) {
+  isCreate,
+}: RecipeDetailsModalViewProps) {
   const theme = useTheme();
 
+  const title = isCreate ? "Create Recipe" : "Update Recipe";
+  const networkErrorMessage = isCreate
+    ? "There was an issue creating your recipe"
+    : "There was an issue updating your recipe";
+
   return (
-    <ModalTemplate isOpen={isOpen} onClose={onClose} title="Create Recipe">
+    <ModalTemplate isOpen={isOpen} onClose={onClose} title={title}>
       <FormTextField
         control={control}
         name="name"
@@ -65,7 +72,7 @@ export default function CreateRecipeModalView({
       </Box>
       {error && (
         <Typography variant="body1" color={theme.palette.error.main}>
-          There was an issue creating your recipe
+          {networkErrorMessage}
         </Typography>
       )}
     </ModalTemplate>

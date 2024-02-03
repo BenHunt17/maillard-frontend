@@ -2,7 +2,7 @@ import z from "zod";
 
 const timeFormatRegex = /^(2[0-3]|[01]?[0-9]):([0-5]?[0-9])$/;
 
-export const recipeCreateInputSchema = z.object({
+export const recipeInputSchema = z.object({
   name: z
     .string()
     .min(1, { message: "required field" })
@@ -27,4 +27,4 @@ export const recipeCreateInputSchema = z.object({
   }),
 });
 
-export type RecipeCreateInput = z.infer<typeof recipeCreateInputSchema>;
+export type RecipeInput = z.infer<typeof recipeInputSchema>;

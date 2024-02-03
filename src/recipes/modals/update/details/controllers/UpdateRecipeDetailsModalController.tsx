@@ -1,25 +1,28 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useUpdateRecipeDetails } from "../../../../data/recipesService";
+import { ModalStateProps } from "../../../../../common/data/modalState";
+import { useRecipe } from "../../../../common/RecipeProvider";
 import {
   RecipeInput,
   recipeInputSchema,
-} from "../../../data/formInputs/recipeInput";
-import { useNavigate } from "react-router-dom";
-import { useCreateRecipe } from "../../../data/recipesService";
-import { ModalStateProps } from "../../../../common/data/modalState";
-import RecipeDetailsModalView from "../../common/RecipeDetailsModalView";
-import { parseTimeString } from "../../common/parseTimeString";
+} from "../../../../data/formInputs/recipeInput";
+import RecipeDetailsModalView from "../../../common/RecipeDetailsModalView";
+import { parseTimeString } from "../../../common/parseTimeString";
 
-export default function CreateRecipeModelController({
+export default function UpdateRecipeDetailsModelController({
   isOpen,
   setIsOpen,
 }: ModalStateProps) {
-  const navigate = useNavigate();
+  const { recipe, setRecipe } = useRecipe();
 
-  const { createRecipe, loading, error } = useCreateRecipe((result) => {
-    setIsOpen(false);
-    navigate(`/recipes/${result.recipe.id}`);
-  });
+  const { updateRecipeDetails, loading, error } = useUpdateRecipeDetails(
+    (result) => {
+      setRecipe(result.recipe);
+      setIsOpen(false);
+    },
+    recipe.id
+  );
 
   const { control, handleSubmit } = useForm<RecipeInput>({
     defaultValues: {
@@ -34,7 +37,7 @@ export default function CreateRecipeModelController({
     resolver: zodResolver(recipeInputSchema),
   });
 
-  const handleCreateRecipe = (formData: RecipeInput) => {
+  const handleUpdateRecipeDetails = (formData: RecipeInput) => {
     const data = {
       prepTime: parseTimeString(formData.data.prepTime),
       cookTime: parseTimeString(formData.data.cookTime),
@@ -47,7 +50,7 @@ export default function CreateRecipeModelController({
     ) {
       return;
     }
-    createRecipe({
+    updateRecipeDetails({
       ...formData,
       data,
     });
@@ -58,10 +61,10 @@ export default function CreateRecipeModelController({
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
       control={control}
-      onSubmit={handleSubmit(handleCreateRecipe)}
+      onSubmit={handleSubmit(handleUpdateRecipeDetails)}
       loading={loading}
       error={error !== undefined}
-      isCreate
+      isCreate={false}
     />
   );
 }

@@ -11,10 +11,13 @@ import UpdateInstructionsModalController from "../../modals/update/instructions/
 import { useState } from "react";
 import UpdateIngredientsModalController from "../../modals/update/ingredients/controllers/UpdateIngredientsModalController";
 import RecipeImageController from "./RecipeImageController";
+import UpdateRecipeDetailsModelController from "../../modals/update/details/controllers/UpdateRecipeDetailsModalController";
 
 export default function RecipeDetailController() {
   const params = useParams();
 
+  const [recipeDetailsModalIsOpen, setRecipeDetailsModalIsOpen] =
+    useState(false);
   const [ingredientsModalIsOpen, setIngredientsModalIsOpen] = useState(false);
   const [instructionsModalIsOpen, setInstructionsModalIsOpen] = useState(false);
 
@@ -31,7 +34,10 @@ export default function RecipeDetailController() {
   return (
     <RecipeProvider initialRecipe={data.recipe}>
       <RecipeDetailView>
-        <RecipeOverviewView recipeImage={<RecipeImageController />} />
+        <RecipeOverviewView
+          recipeImage={<RecipeImageController />}
+          openModal={() => setRecipeDetailsModalIsOpen(true)}
+        />
         <RecipeIngredientsView
           openModal={() => setIngredientsModalIsOpen(true)}
         />
@@ -39,6 +45,10 @@ export default function RecipeDetailController() {
           openModal={() => setInstructionsModalIsOpen(true)}
         />
       </RecipeDetailView>
+      <UpdateRecipeDetailsModelController
+        isOpen={recipeDetailsModalIsOpen}
+        setIsOpen={setRecipeDetailsModalIsOpen}
+      />
       <UpdateIngredientsModalController
         isOpen={ingredientsModalIsOpen}
         setIsOpen={setIngredientsModalIsOpen}

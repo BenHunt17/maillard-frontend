@@ -40,6 +40,20 @@ export function useCreateRecipe(onComplete: (value: RecipeResponse) => void) {
   return { createRecipe, loading, error };
 }
 
+export function useUpdateRecipeDetails(
+  onComplete: (value: RecipeResponse) => void,
+  recipeId: String
+) {
+  const { callback, loading, error } = useRequest<RecipeResponse>(
+    `/recipes/${recipeId}`,
+    "PATCH",
+    onComplete
+  );
+  const updateRecipeDetails = (value: object) => callback({ body: value });
+
+  return { updateRecipeDetails, loading, error };
+}
+
 export function useUpdateRecipeIngredients(
   onComplete: (value: RecipeResponse) => void,
   recipeId: String
