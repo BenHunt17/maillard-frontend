@@ -31,7 +31,7 @@ export default function Img(props: ImgProps) {
       <Image
         {...props}
         canUpdate={canUpdate}
-        src={props.src ?? ImagePlaceholder}
+        src={`${props.src}?${new Date()}` ?? ImagePlaceholder}
         alt={props.alt ?? ""}
         width="100%"
         onClick={canUpdate ? () => setShowModal(true) : undefined}
@@ -47,7 +47,13 @@ export default function Img(props: ImgProps) {
   );
 }
 
-const Image = styled("img")(({ canUpdate }: { canUpdate: boolean }) => {
+const Image = styled("img", {
+  shouldForwardProp: (prop) =>
+    prop !== "onUpload" &&
+    prop !== "onRemove" &&
+    prop !== "isLoading" &&
+    prop !== "canUpdate",
+})(({ canUpdate }: { canUpdate: boolean }) => {
   const theme = useTheme();
 
   return {

@@ -1,55 +1,13 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { AuthProvider } from "./core/authentication/AuthProvider";
-import {
-  Route,
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from "react-router-dom";
-import LoginController from "./login/controller/LoginController";
-import RecipeCollectionController from "./recipes/collection/controller/RecipeCollectionController";
-import App from "./App";
+import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
-import { CssBaseline, createTheme } from "@mui/material";
-import AppLoaderController from "./appLoader/controller/AppLoaderController";
-import RecipeDetailController from "./recipes/detail/controller/RecipeDetailController";
-
-//TODO - lazy load?
-
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/">
-      <Route index element={<AppLoaderController />} />
-      <Route path="/login" element={<LoginController />} />
-      <Route element={<App />}>
-        <Route path="/recipes" element={<RecipeCollectionController />} />
-        <Route path="/recipes/:id" element={<RecipeDetailController />} />
-      </Route>
-    </Route>
-  )
-);
-
-const theme = createTheme({
-  //TODO - put this into another file and properly make the typography/colour pallete
-  palette: {
-    background: { default: "#e0e0e0" },
-  },
-  typography: {
-    button: {
-      textTransform: "none",
-    },
-    body1: {
-      color: "#424242",
-    },
-    h6: {
-      fontWeight: "bold",
-    },
-  },
-  spacing: 3,
-});
+import { CssBaseline } from "@mui/material";
+import { theme } from "./muiTheme";
+import React from "react";
+import { router } from "./core/routes/routes";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-import { Instruction, Recipe } from "./types/RecipeResponse";
+import { Instruction, Recipe } from "../data/types/RecipeResponse";
 
 interface RecipeContextProps {
   recipe: Recipe;

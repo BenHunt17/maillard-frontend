@@ -11,6 +11,7 @@ export default function ZebraView({ content }: ZebraViewProps) {
     <Container>
       {content.map((item, index) => (
         <Box
+          key={item.name}
           display="flex"
           justifyContent="space-between"
           alignItems="center"

@@ -1,11 +1,11 @@
 import { UseFormReturn } from "react-hook-form";
 import FormAutocomplete from "../../../../../common/components/formInputs/FormAutocomplete";
 import { IngredientInput } from "../../../../data/formInputs/ingredientInput";
-import { useSearchIngredients } from "../../../../data/ingredientsService";
 import { useEffect } from "react";
 import { useDebounce } from "use-debounce";
 import { SEARCH_DEBOUNCE_DELAY } from "../../../../../common/utils/constants";
-import { IngredientResponse } from "../../../../common/types/IngredientResponse";
+import { IngredientResponse } from "../../../../data/types/IngredientResponse";
+import { useSearchIngredients } from "../../../../data/ingredientsService";
 
 interface IngredientAutocompleteProps {
   formFunctions: UseFormReturn<IngredientInput>;

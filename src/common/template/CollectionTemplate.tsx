@@ -92,8 +92,8 @@ export default function CollectionTemplate<T>({
           </Box>
         ) : (
           <Grid container spacing={{ xs: 8, sm: 8, md: 6 }}>
-            {items.map((item) => (
-              <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
+            {items.map((item, index) => (
+              <Grid key={index} item xs={12} sm={12} md={6} lg={6} xl={4}>
                 {renderItem(item)}
               </Grid>
             ))}

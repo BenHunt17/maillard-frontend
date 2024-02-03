@@ -1,26 +1,17 @@
 import { Box, Typography } from "@mui/material";
-import { Nutrient, RecipeResponse } from "../../common/types/RecipeResponse";
 import ZebraView from "../../../common/components/ZebraView";
 import { InfoBox } from "../../../common/components/styled/InfoBox";
-import Img from "../../../common/components/img/Img";
-import {
-  useRemoveRecipeImage,
-  useUploadRecipeImage,
-} from "../../data/recipesService";
 import { useRecipe } from "../../common/RecipeProvider";
+import { Nutrient } from "../../data/types/RecipeResponse";
 
-export default function RecipeOverviewView() {
-  const { recipe, setRecipe } = useRecipe();
+interface RecipeOverviewViewProps {
+  recipeImage: React.ReactNode;
+}
 
-  const updateRecipe = (response: RecipeResponse) => setRecipe(response.recipe);
-
-  const {
-    callback: removeRecipeImage,
-    loading: removeRecipeImageLoading, //TODO - abstract modal out of view and component
-    //TODO - look into toasts
-  } = useRemoveRecipeImage(recipe.id, updateRecipe);
-  const { callback: uploadRecipeImage, loading: uploadRecipeImageLoading } =
-    useUploadRecipeImage(recipe.id, updateRecipe);
+export default function RecipeOverviewView({
+  recipeImage,
+}: RecipeOverviewViewProps) {
+  const { recipe } = useRecipe();
 
   return (
     <>
@@ -30,13 +21,7 @@ export default function RecipeOverviewView() {
           <Typography variant="body1">{recipe.description}</Typography>
         </InfoBox>
       )}
-      <Img
-        src={recipe.imageUrl}
-        alt={recipe.name}
-        onUpload={uploadRecipeImage}
-        onRemove={removeRecipeImage}
-        isLoading={removeRecipeImageLoading || uploadRecipeImageLoading}
-      />
+      {recipeImage}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Typography variant="body1">
           Prep time: <b>{minutesToTimeString(recipe.data.prepTime)}</b>

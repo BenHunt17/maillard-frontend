@@ -7,16 +7,12 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { useUpdateRecipeInstructions } from "../../../../data/recipesService";
 import UpdateInstructionsModalView from "../views/UpdateInstructionsModalView";
 import { useRecipe } from "../../../../common/RecipeProvider";
-
-interface UpdateInstructionsModalControllerProps {
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
-}
+import { ModalStateProps } from "../../../../../common/data/modalState";
 
 export default function UpdateInstructionsModalController({
   isOpen,
   setIsOpen,
-}: UpdateInstructionsModalControllerProps) {
+}: ModalStateProps) {
   const { recipe, orderedInstructions, setRecipe } = useRecipe();
 
   const defaultValues = {

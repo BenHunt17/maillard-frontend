@@ -1,7 +1,7 @@
 import { useFetch } from "../../common/hooks/useFetch";
 import { useRequest } from "../../common/hooks/useRequest";
-import { RecipeResponse } from "../common/types/RecipeResponse";
-import { AbridgedRecipesResponse } from "../common/types/abridgedRecipesResponse";
+import { RecipeResponse } from "./types/RecipeResponse";
+import { AbridgedRecipesResponse } from "./types/abridgedRecipesResponse";
 
 export function useSearchRecipes(
   searchTerm: string,
