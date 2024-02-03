@@ -4,23 +4,23 @@ import {
   ingredientInputSchema,
 } from "../../../../data/formInputs/ingredientInput";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Ingredient } from "../../../../data/types/RecipeResponse";
 import { useUpdateRecipeIngredients } from "../../../../data/recipesService";
 import UpdateIngredientsModalView from "../views/UpdateIngredientsModalView";
+import { useRecipe } from "../../../../common/RecipeProvider";
 
 interface UpdateIngredientsModalControllerProps {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
-  recipeId: string;
-  currentIngredients: Ingredient[];
 }
 
 export default function UpdateIngredientsModalController({
   isOpen,
   setIsOpen,
-  recipeId,
-  currentIngredients,
 }: UpdateIngredientsModalControllerProps) {
+  const { recipe, setRecipe } = useRecipe();
+
+  const currentIngredients = recipe.ingredients;
+
   const defaultValues = {
     ingredients:
       currentIngredients.length > 0
@@ -46,8 +46,11 @@ export default function UpdateIngredientsModalController({
   });
 
   const { updateRecipeIngredients, loading } = useUpdateRecipeIngredients(
-    () => {},
-    recipeId
+    (response) => {
+      setRecipe(response.recipe);
+      setIsOpen(false);
+    },
+    recipe.id
   );
 
   const handleUpdateRecipeIngredients = (formData: IngredientInput) =>

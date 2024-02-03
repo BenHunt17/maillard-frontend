@@ -5,27 +5,22 @@ import {
 } from "../../../../data/formInputs/instructionInput";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useUpdateRecipeInstructions } from "../../../../data/recipesService";
-import { Instruction } from "../../../../data/types/RecipeResponse";
 import UpdateInstructionsModalView from "../views/UpdateInstructionsModalView";
+import { useRecipe } from "../../../../common/RecipeProvider";
 
 interface UpdateInstructionsModalControllerProps {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
-  recipeId: string;
-  currentInstructions: Instruction[];
 }
 
 export default function UpdateInstructionsModalController({
   isOpen,
   setIsOpen,
-  recipeId,
-  currentInstructions,
 }: UpdateInstructionsModalControllerProps) {
-  const sortedCurrentInstructions = currentInstructions.sort(
-    (a, b) => a.priorityNumber - b.priorityNumber
-  );
+  const { recipe, orderedInstructions, setRecipe } = useRecipe();
+
   const defaultValues = {
-    instructions: sortedCurrentInstructions.map((instruction) => ({
+    instructions: orderedInstructions.map((instruction) => ({
       step: instruction.step,
     })),
   };
@@ -41,8 +36,11 @@ export default function UpdateInstructionsModalController({
   });
 
   const { updateInstructions, loading } = useUpdateRecipeInstructions(
-    (result) => {},
-    recipeId
+    (response) => {
+      setRecipe(response.recipe);
+      setIsOpen(false);
+    },
+    recipe.id
   );
 
   const handleUpdateInstructions = (formData: InstructionInput) =>

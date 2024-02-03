@@ -1,20 +1,17 @@
 import { Box, IconButton, Typography } from "@mui/material";
 import { InfoBox } from "../../../common/components/styled/InfoBox";
-import { Recipe } from "../../data/types/RecipeResponse";
 import { Edit } from "@mui/icons-material";
+import { useRecipe } from "../../common/RecipeProvider";
 
 interface RecipeMethodologyViewProps {
-  recipe: Recipe;
   openModal: () => void;
 }
 
 export default function RecipeMethodologyView({
-  recipe,
   openModal,
 }: RecipeMethodologyViewProps) {
-  const orderedInstructions = recipe.instructions.sort(
-    (a, b) => a.priorityNumber - b.priorityNumber
-  );
+  const { orderedInstructions } = useRecipe();
+
   const hasInstructions = orderedInstructions.length > 0;
 
   return (

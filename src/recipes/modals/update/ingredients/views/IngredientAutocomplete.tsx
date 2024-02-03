@@ -5,7 +5,7 @@ import { useSearchIngredients } from "../../../../data/ingredientsService";
 import { useEffect } from "react";
 import { useDebounce } from "use-debounce";
 import { SEARCH_DEBOUNCE_DELAY } from "../../../../../common/utils/constants";
-import { IngredientResponse } from "../../../../data/types/IngredientResponse";
+import { IngredientResponse } from "../../../../common/types/IngredientResponse";
 
 interface IngredientAutocompleteProps {
   formFunctions: UseFormReturn<IngredientInput>;

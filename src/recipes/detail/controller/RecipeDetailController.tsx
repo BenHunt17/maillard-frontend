@@ -8,22 +8,20 @@ import RecipeIngredientsView from "../view/RecipeIngredientsView";
 import useUpdateIngredients from "./useUpdateIngredients";
 import RecipeMethodologyView from "../view/RecipeMethodologyView";
 import useUpdateInstructions from "./useUpdateInstructions";
+import { RecipeProvider } from "../../common/RecipeProvider";
 
 export default function RecipeDetailController() {
   const params = useParams();
 
   const recipeId = params.id ?? "";
 
-  const { data, loading, error, updateResult } = useGetRecipe(recipeId);
+  const { data, loading, error } = useGetRecipe(recipeId);
 
   const { updateIngredientsModal, openUpdateIngredientsModal } =
-    useUpdateIngredients(data?.recipe.ingredients ?? [], data?.recipe.id ?? "");
+    useUpdateIngredients();
 
   const { updateInstructionsModal, openUpdateInstructionsModal } =
-    useUpdateInstructions(
-      data?.recipe.instructions ?? [],
-      data?.recipe.id ?? ""
-    );
+    useUpdateInstructions();
 
   if (loading) {
     return <Loading />;
@@ -32,20 +30,14 @@ export default function RecipeDetailController() {
     return <Error>{"There was an error finding the recipe :("}</Error>;
   }
   return (
-    <>
+    <RecipeProvider initialRecipe={data.recipe}>
       <RecipeDetailView>
-        <RecipeOverviewView recipe={data.recipe} updateRecipe={updateResult} />
-        <RecipeIngredientsView
-          recipe={data.recipe}
-          openModal={openUpdateIngredientsModal}
-        />
-        <RecipeMethodologyView
-          recipe={data.recipe}
-          openModal={openUpdateInstructionsModal}
-        />
+        <RecipeOverviewView />
+        <RecipeIngredientsView openModal={openUpdateIngredientsModal} />
+        <RecipeMethodologyView openModal={openUpdateInstructionsModal} />
       </RecipeDetailView>
       {updateIngredientsModal}
       {updateInstructionsModal}
-    </>
+    </RecipeProvider>
   );
 }

@@ -2,7 +2,7 @@ import CollectionTemplate, {
   PaginationOptions,
 } from "../../../common/template/CollectionTemplate";
 import { parseDate } from "../../../common/utils/dateUtils";
-import { AbridgedRecipe } from "../../data/types/abridgedRecipesResponse";
+import { AbridgedRecipe } from "../../common/types/abridgedRecipesResponse";
 import RecipeCard from "./RecipeCard";
 
 interface RecipeCollectionViewProps {

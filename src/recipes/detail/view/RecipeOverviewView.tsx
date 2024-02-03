@@ -1,9 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import {
-  Nutrient,
-  Recipe,
-  RecipeResponse,
-} from "../../data/types/RecipeResponse";
+import { Nutrient, RecipeResponse } from "../../common/types/RecipeResponse";
 import ZebraView from "../../../common/components/ZebraView";
 import { InfoBox } from "../../../common/components/styled/InfoBox";
 import Img from "../../../common/components/img/Img";
@@ -11,16 +7,13 @@ import {
   useRemoveRecipeImage,
   useUploadRecipeImage,
 } from "../../data/recipesService";
+import { useRecipe } from "../../common/RecipeProvider";
 
-interface RecipeOverviewProps {
-  recipe: Recipe;
-  updateRecipe: (value: RecipeResponse) => void;
-}
+export default function RecipeOverviewView() {
+  const { recipe, setRecipe } = useRecipe();
 
-export default function RecipeOverviewView({
-  recipe,
-  updateRecipe,
-}: RecipeOverviewProps) {
+  const updateRecipe = (response: RecipeResponse) => setRecipe(response.recipe);
+
   const {
     callback: removeRecipeImage,
     loading: removeRecipeImageLoading, //TODO - abstract modal out of view and component

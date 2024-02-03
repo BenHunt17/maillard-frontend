@@ -1,17 +1,17 @@
 import { Box, IconButton, Typography, styled } from "@mui/material";
 import { InfoBox } from "../../../common/components/styled/InfoBox";
-import { Recipe } from "../../data/types/RecipeResponse";
 import { Edit } from "@mui/icons-material";
+import { useRecipe } from "../../common/RecipeProvider";
 
 interface RecipeIngredientsViewProps {
-  recipe: Recipe;
   openModal: () => void;
 }
 
 export default function RecipeIngredientsView({
-  recipe,
   openModal,
 }: RecipeIngredientsViewProps) {
+  const { recipe } = useRecipe();
+
   const hasIngredients = recipe.ingredients.length > 0;
 
   return (
@@ -26,7 +26,10 @@ export default function RecipeIngredientsView({
         <Layout>
           {recipe.ingredients.map((ingredient) => (
             <li key={ingredient.id}>
-              <Typography variant="body1">{`${ingredient.displayLabel} ${ingredient.name}`}</Typography>
+              <Typography variant="body1">
+                {ingredient.displayLabel ??
+                  `${ingredient.quantity}g ${ingredient.name}`}
+              </Typography>
             </li>
           ))}
         </Layout>
@@ -43,5 +46,5 @@ const Layout = styled("ul")({
   display: "grid",
   gridTemplateColumns: "repeat(auto-fill, 200px)",
   alignItems: "center",
-  gap: 16,
+  gap: 32,
 });

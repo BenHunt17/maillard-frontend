@@ -1,5 +1,5 @@
 import { useFetch } from "../../common/hooks/useFetch";
-import { IngredientResponse } from "./types/IngredientResponse";
+import { IngredientResponse } from "../common/types/IngredientResponse";
 
 export function useSearchIngredients(
   searchTerm: string,
