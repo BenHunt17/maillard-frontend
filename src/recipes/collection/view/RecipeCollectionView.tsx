@@ -11,6 +11,7 @@ interface RecipeCollectionViewProps {
   paginationOptions: PaginationOptions;
   setSearchText: (value: string) => void;
   loading: boolean;
+  openModal?: () => void;
 }
 
 export default function RecipeCollectionView({
@@ -19,6 +20,7 @@ export default function RecipeCollectionView({
   setSearchText,
   paginationOptions,
   loading,
+  openModal,
 }: RecipeCollectionViewProps) {
   return (
     <CollectionTemplate
@@ -34,6 +36,7 @@ export default function RecipeCollectionView({
           imageUrl={recipe.imageUrl}
         />
       )}
+      openModal={openModal}
       loading={loading}
     />
   );

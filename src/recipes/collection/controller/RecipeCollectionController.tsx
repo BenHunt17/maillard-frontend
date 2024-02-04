@@ -7,10 +7,13 @@ import {
   SEARCH_DEBOUNCE_DELAY,
 } from "../../../common/utils/constants";
 import Error from "../../../common/components/Error";
+import CreateRecipeModelController from "../../modals/create/controller/CreateRecipeModalController";
 
 export default function RecipeCollectionController() {
   const [searchText, setSearchText] = useState("");
   const [searchTerm] = useDebounce(searchText, SEARCH_DEBOUNCE_DELAY);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const [offset, setOffset] = useState(0);
 
@@ -27,16 +30,20 @@ export default function RecipeCollectionController() {
     return <Error>{error.message}</Error>;
   }
   return (
-    <RecipeCollectionView
-      recipes={data?.paginatedRecipes.items ?? []}
-      searchText={searchText}
-      setSearchText={setSearchText}
-      paginationOptions={{
-        page,
-        total,
-        setPage: (value) => setOffset(PAGINATION_LIMIT * (value - 1)),
-      }}
-      loading={loading}
-    />
+    <>
+      <RecipeCollectionView
+        recipes={data?.paginatedRecipes.items ?? []}
+        searchText={searchText}
+        setSearchText={setSearchText}
+        paginationOptions={{
+          page,
+          total,
+          setPage: (value) => setOffset(PAGINATION_LIMIT * (value - 1)),
+        }}
+        loading={loading}
+        openModal={() => setIsOpen(true)}
+      />
+      <CreateRecipeModelController isOpen={isOpen} setIsOpen={setIsOpen} />
+    </>
   );
 }

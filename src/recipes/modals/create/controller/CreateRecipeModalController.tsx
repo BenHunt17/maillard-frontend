@@ -18,10 +18,11 @@ export default function CreateRecipeModelController({
 
   const { createRecipe, loading, error } = useCreateRecipe((result) => {
     setIsOpen(false);
+    formFunctions.reset();
     navigate(`/recipes/${result.recipe.id}`);
   });
 
-  const { control, handleSubmit } = useForm<RecipeInput>({
+  const formFunctions = useForm<RecipeInput>({
     defaultValues: {
       name: "",
       description: "",
@@ -56,12 +57,15 @@ export default function CreateRecipeModelController({
   return (
     <RecipeDetailsModalView
       isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
-      control={control}
-      onSubmit={handleSubmit(handleCreateRecipe)}
+      onClose={() => {
+        formFunctions.reset();
+        setIsOpen(false);
+      }}
+      onSubmit={formFunctions.handleSubmit(handleCreateRecipe)}
       loading={loading}
       error={error !== undefined}
       isCreate
+      formFunctions={formFunctions}
     />
   );
 }

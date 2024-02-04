@@ -9,6 +9,8 @@ import {
 } from "../../../../data/formInputs/recipeInput";
 import RecipeDetailsModalView from "../../../common/RecipeDetailsModalView";
 import { parseTimeString } from "../../../common/parseTimeString";
+import { Recipe } from "../../../../data/types/RecipeResponse";
+import { minutesToTimeString } from "../../../common/minutesToTimeString";
 
 export default function UpdateRecipeDetailsModelController({
   isOpen,
@@ -19,21 +21,14 @@ export default function UpdateRecipeDetailsModelController({
   const { updateRecipeDetails, loading, error } = useUpdateRecipeDetails(
     (result) => {
       setRecipe(result.recipe);
+      formFunctions.reset(getDefaultValues(result.recipe));
       setIsOpen(false);
     },
     recipe.id
   );
 
-  const { control, handleSubmit } = useForm<RecipeInput>({
-    defaultValues: {
-      name: "",
-      description: "",
-      data: {
-        prepTime: "",
-        cookTime: "",
-        washingUpTime: "",
-      },
-    },
+  const formFunctions = useForm<RecipeInput>({
+    defaultValues: getDefaultValues(recipe),
     resolver: zodResolver(recipeInputSchema),
   });
 
@@ -59,12 +54,27 @@ export default function UpdateRecipeDetailsModelController({
   return (
     <RecipeDetailsModalView
       isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
-      control={control}
-      onSubmit={handleSubmit(handleUpdateRecipeDetails)}
+      onClose={() => {
+        formFunctions.reset();
+        setIsOpen(false);
+      }}
+      onSubmit={formFunctions.handleSubmit(handleUpdateRecipeDetails)}
       loading={loading}
       error={error !== undefined}
       isCreate={false}
+      formFunctions={formFunctions}
     />
   );
+}
+
+function getDefaultValues(recipe: Recipe) {
+  return {
+    name: recipe.name,
+    description: recipe.description,
+    data: {
+      prepTime: minutesToTimeString(recipe.data.prepTime),
+      cookTime: minutesToTimeString(recipe.data.cookTime),
+      washingUpTime: minutesToTimeString(recipe.data.washingUpTime),
+    },
+  };
 }

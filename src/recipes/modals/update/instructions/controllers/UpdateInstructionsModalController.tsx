@@ -8,6 +8,7 @@ import { useUpdateRecipeInstructions } from "../../../../data/recipesService";
 import UpdateInstructionsModalView from "../views/UpdateInstructionsModalView";
 import { useRecipe } from "../../../../common/RecipeProvider";
 import { ModalStateProps } from "../../../../../common/data/modalState";
+import { Instruction } from "../../../../data/types/RecipeResponse";
 
 export default function UpdateInstructionsModalController({
   isOpen,
@@ -15,11 +16,7 @@ export default function UpdateInstructionsModalController({
 }: ModalStateProps) {
   const { recipe, orderedInstructions, setRecipe } = useRecipe();
 
-  const defaultValues = {
-    instructions: orderedInstructions.map((instruction) => ({
-      step: instruction.step,
-    })),
-  };
+  const defaultValues = getDefaultValues(orderedInstructions);
 
   const formFunctions = useForm<InstructionInput>({
     defaultValues,
@@ -34,6 +31,7 @@ export default function UpdateInstructionsModalController({
   const { updateInstructions, loading } = useUpdateRecipeInstructions(
     (response) => {
       setRecipe(response.recipe);
+      formFunctions.reset(getDefaultValues(response.recipe.instructions));
       setIsOpen(false);
     },
     recipe.id
@@ -52,7 +50,10 @@ export default function UpdateInstructionsModalController({
   return (
     <UpdateInstructionsModalView
       isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
+      onClose={() => {
+        formFunctions.reset();
+        setIsOpen(false);
+      }}
       onSubmit={formFunctions.handleSubmit(handleUpdateInstructions)}
       loading={loading}
       formFunctions={formFunctions}
@@ -61,4 +62,12 @@ export default function UpdateInstructionsModalController({
       removeInstruction={remove}
     />
   );
+}
+
+function getDefaultValues(instructions: Instruction[]) {
+  return {
+    instructions: instructions.map((instruction) => ({
+      step: instruction.step,
+    })),
+  };
 }

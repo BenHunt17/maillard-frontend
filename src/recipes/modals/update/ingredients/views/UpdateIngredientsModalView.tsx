@@ -29,6 +29,9 @@ export default function UpdateIngredientsModalView({
 }: UpdateIngredientsModalViewProps) {
   const theme = useTheme();
 
+  const { isValid, isDirty } = formFunctions.formState;
+  const canSubmit = isValid && isDirty;
+
   return (
     <ModalTemplate title="Update Ingredients" isOpen={isOpen} onClose={onClose}>
       <div
@@ -89,7 +92,11 @@ export default function UpdateIngredientsModalView({
         </Button>
       </div>
       <Box display="flex" justifyContent="flex-end">
-        <Button variant="contained" onClick={onSubmit} disabled={loading}>
+        <Button
+          variant="contained"
+          onClick={onSubmit}
+          disabled={loading || !canSubmit}
+        >
           Submit
         </Button>
       </Box>

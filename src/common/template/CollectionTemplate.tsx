@@ -6,14 +6,11 @@ import {
   TextField,
   Typography,
   styled,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import Loading from "../components/Loading";
 import { PAGINATION_LIMIT } from "../utils/constants";
-import CreateRecipeModelController from "../../recipes/modals/create/controller/CreateRecipeModalController";
-import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import { useResponsiveLayout } from "../hooks/useResponsiveLayout";
 
 interface CollectionTemplateProps<T> {
   searchText: string;
@@ -22,6 +19,7 @@ interface CollectionTemplateProps<T> {
   items: T[];
   renderItem: (item: T) => React.ReactNode;
   loading: boolean;
+  openModal?: () => void;
 }
 
 export default function CollectionTemplate<T>({
@@ -31,10 +29,9 @@ export default function CollectionTemplate<T>({
   items,
   renderItem,
   loading,
+  openModal,
 }: CollectionTemplateProps<T>) {
-  const [isOpen, setIsOpen] = useState(false);
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down("md")); //TODO- create a ssmall screen hook
+  const isMobile = useResponsiveLayout("mobile");
 
   const pageCount = Math.ceil(paginationOptions.total / PAGINATION_LIMIT);
 
@@ -45,11 +42,13 @@ export default function CollectionTemplate<T>({
         display="flex"
         alignItems="center"
         justifyContent="space-between"
+        gap={16}
       >
         <SearchBar
           value={searchText}
           onChange={(e) => setSearchText(e.currentTarget.value)}
           placeholder="Search Recipes"
+          sx={{ flexGrow: 1 }}
         />
         <Box
           display="flex"
@@ -57,7 +56,7 @@ export default function CollectionTemplate<T>({
           justifyContent="space-between"
           gap={8}
         >
-          {!matches && (
+          {!isMobile && (
             <Pagination
               count={pageCount}
               page={paginationOptions.page}
@@ -65,9 +64,11 @@ export default function CollectionTemplate<T>({
               color="primary"
             />
           )}
-          <IconButton onClick={() => setIsOpen(true)}>
-            <AddIcon />
-          </IconButton>
+          {!openModal && (
+            <IconButton onClick={openModal}>
+              <AddIcon />
+            </IconButton>
+          )}
         </Box>
       </Box>
       <Box
@@ -99,7 +100,7 @@ export default function CollectionTemplate<T>({
             ))}
           </Grid>
         )}
-        {matches && (
+        {isMobile && (
           <Pagination
             count={pageCount}
             page={paginationOptions.page}
@@ -108,7 +109,6 @@ export default function CollectionTemplate<T>({
           />
         )}
       </Box>
-      <CreateRecipeModelController isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
 }

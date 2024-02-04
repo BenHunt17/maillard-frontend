@@ -1,12 +1,12 @@
-import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import NavigationItemsHamburger from "./NavigationItemsHamburger";
 import { NavLink } from "react-router-dom";
+import { useResponsiveLayout } from "../../../common/hooks/useResponsiveLayout";
 
 export default function NavigationItems() {
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useResponsiveLayout("mobile");
 
-  if (matches) {
+  if (isMobile) {
     return <NavigationItemsHamburger />;
   }
   return (

@@ -8,6 +8,7 @@ import { useUpdateRecipeIngredients } from "../../../../data/recipesService";
 import UpdateIngredientsModalView from "../views/UpdateIngredientsModalView";
 import { useRecipe } from "../../../../common/RecipeProvider";
 import { ModalStateProps } from "../../../../../common/data/modalState";
+import { Ingredient } from "../../../../data/types/RecipeResponse";
 
 export default function UpdateIngredientsModalController({
   isOpen,
@@ -17,19 +18,7 @@ export default function UpdateIngredientsModalController({
 
   const currentIngredients = recipe.ingredients;
 
-  const defaultValues = {
-    ingredients:
-      currentIngredients.length > 0
-        ? currentIngredients
-        : [
-            {
-              name: undefined,
-              quantity: undefined,
-              displayLabel: undefined,
-              externalId: undefined,
-            },
-          ],
-  };
+  const defaultValues = getDefaultValues(currentIngredients);
 
   const formFunctions = useForm<IngredientInput>({
     defaultValues,
@@ -44,6 +33,7 @@ export default function UpdateIngredientsModalController({
   const { updateRecipeIngredients, loading } = useUpdateRecipeIngredients(
     (response) => {
       setRecipe(response.recipe);
+      formFunctions.reset(getDefaultValues(response.recipe.ingredients));
       setIsOpen(false);
     },
     recipe.id
@@ -63,7 +53,10 @@ export default function UpdateIngredientsModalController({
   return (
     <UpdateIngredientsModalView
       isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
+      onClose={() => {
+        formFunctions.reset();
+        setIsOpen(false);
+      }}
       onSubmit={formFunctions.handleSubmit(handleUpdateRecipeIngredients)}
       loading={loading}
       formFunctions={formFunctions}
@@ -72,4 +65,20 @@ export default function UpdateIngredientsModalController({
       removeIngredient={remove}
     />
   );
+}
+
+function getDefaultValues(currentIngredients: Ingredient[]) {
+  return {
+    ingredients:
+      currentIngredients.length > 0
+        ? currentIngredients
+        : [
+            {
+              name: undefined,
+              quantity: undefined,
+              displayLabel: undefined,
+              externalId: undefined,
+            },
+          ],
+  };
 }

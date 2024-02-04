@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 
 import ImagePlaceholder from "../../../assets/imagePlaceholder.png";
 import { Delete, Edit } from "@mui/icons-material";
+import { useResponsiveLayout } from "../../hooks/useResponsiveLayout";
 
 interface UpdateImgModalProps {
   currentImgSrc: string | undefined;
@@ -20,6 +21,7 @@ export default function UpdateImgModal({
   handleUpload,
   handleRemove,
 }: UpdateImgModalProps) {
+  const isMobile = useResponsiveLayout("mobile");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [previewImageSrc, setPreviewImageSrc] = useState(
@@ -40,7 +42,7 @@ export default function UpdateImgModal({
     <ModalTemplate isOpen={isOpen} onClose={onClose} title="Update Image">
       <Box display="flex" flexDirection="column" alignItems="center" gap={8}>
         <ImagePreview src={previewImageSrc} />
-        <Box display="flex" gap={8}>
+        <Box flexDirection={isMobile ? "column" : "row"} display="flex" gap={8}>
           <Button
             variant="outlined"
             startIcon={<Edit />}

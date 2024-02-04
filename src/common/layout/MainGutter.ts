@@ -1,12 +1,11 @@
 import styled from "@emotion/styled";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { useResponsiveLayout } from "../hooks/useResponsiveLayout";
 
 export const MainGutter = styled.div(() => {
-  const theme = useTheme();
-  const mediaQueryMd = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useResponsiveLayout("mobile");
 
   return {
-    paddingLeft: mediaQueryMd ? 24 : 16,
-    paddingRight: mediaQueryMd ? 24 : 16,
+    paddingLeft: isMobile ? 24 : 16,
+    paddingRight: isMobile ? 24 : 16,
   };
 });

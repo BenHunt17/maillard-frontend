@@ -4,6 +4,7 @@ import { InfoBox } from "../../../common/components/styled/InfoBox";
 import { useRecipe } from "../../common/RecipeProvider";
 import { Nutrient } from "../../data/types/RecipeResponse";
 import { Edit } from "@mui/icons-material";
+import { minutesToTimeString } from "../../modals/common/minutesToTimeString";
 
 interface RecipeOverviewViewProps {
   recipeImage: React.ReactNode;
@@ -47,15 +48,6 @@ export default function RecipeOverviewView({
       )}
     </>
   );
-}
-
-function minutesToTimeString(minutes: number) {
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
-
-  return `${hours.toString().padStart(2, "0")}:${mins
-    .toString()
-    .padStart(2, "0")}`;
 }
 
 function cleanNutrientsData(nutrients: Nutrient[]) {
