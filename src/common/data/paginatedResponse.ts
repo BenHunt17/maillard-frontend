@@ -1,5 +1,7 @@
+import { Maybe } from "../../core/utils/types";
+
 export interface PaginatedResponse<T> {
-  items: T[];
-  offset: number;
-  total: number;
+  items: Maybe<T[]>;
+  offset: Maybe<number>;
+  total: Maybe<number>;
 }

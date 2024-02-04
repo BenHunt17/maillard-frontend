@@ -4,8 +4,8 @@ import { format } from "date-fns";
 import { Link } from "react-router-dom";
 
 interface RecipeCardProps {
-  recipeId: string;
-  recipeName: string;
+  recipeId: string | undefined;
+  recipeName: string | undefined;
   createdAt: Date | undefined;
   imageUrl: string | undefined;
 }
@@ -17,7 +17,10 @@ export default function RecipeCard({
   imageUrl,
 }: RecipeCardProps) {
   return (
-    <Link className="nav-item" to={`/recipes/${recipeId}`}>
+    <Link
+      className="nav-item"
+      to={recipeId ? `/recipes/${recipeId}` : "/recipes"}
+    >
       <Card elevation={5}>
         <CardMedia
           component="img"
@@ -27,7 +30,7 @@ export default function RecipeCard({
           sx={{ objectFit: "cover" }}
         />
         <Label>
-          <Typography variant="body1">{recipeName}</Typography>
+          <Typography variant="body1">{recipeName ?? "Unknown"}</Typography>
           <Typography variant="body2">
             {createdAt
               ? format(createdAt, "dd/MM/yyyy")

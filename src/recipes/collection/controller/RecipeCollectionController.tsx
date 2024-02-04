@@ -24,7 +24,7 @@ export default function RecipeCollectionController() {
   );
 
   const page = Math.ceil(offset / PAGINATION_LIMIT) + 1;
-  const total = data?.paginatedRecipes.total ?? 0;
+  const total = data?.paginatedRecipes?.total ?? 0;
 
   if (error) {
     return <Error>{error.message}</Error>;
@@ -32,7 +32,7 @@ export default function RecipeCollectionController() {
   return (
     <>
       <RecipeCollectionView
-        recipes={data?.paginatedRecipes.items ?? []}
+        recipes={data?.paginatedRecipes?.items ?? []}
         searchText={searchText}
         setSearchText={setSearchText}
         paginationOptions={{
