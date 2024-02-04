@@ -76,7 +76,7 @@ export default function RecipeDetailsModalView({
         <Button
           variant="contained"
           onClick={onSubmit}
-          disabled={loading || canSubmit}
+          disabled={loading || !canSubmit}
         >
           Submit
         </Button>

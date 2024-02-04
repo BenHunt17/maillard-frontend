@@ -61,12 +61,11 @@ export default function UpdateImgModal({
             Remove
           </Button>
         </Box>
-
         <Box display="flex" justifyContent="flex-end" width="100%">
           <Button
             onClick={handleSubmit}
             variant="contained"
-            sx={{ opacity: previewImageSrc !== currentImgSrc ? 1 : 0 }}
+            disabled={previewImageSrc === currentImgSrc}
           >
             Submit
           </Button>
@@ -77,7 +76,9 @@ export default function UpdateImgModal({
         type="file"
         accept="image/*"
         onChange={(e) => {
-          if (!e.target.files?.[0]) return;
+          if (!e.target.files?.[0]) {
+            return;
+          }
           setNewImage(e.target.files?.[0]);
           setPreviewImageSrc(URL.createObjectURL(e.target.files?.[0]));
         }}
