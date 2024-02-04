@@ -16,10 +16,12 @@ export default function CreateRecipeModelController({
 }: ModalStateProps) {
   const navigate = useNavigate();
 
-  const { createRecipe, loading, error } = useCreateRecipe((result) => {
+  const { createRecipe, loading, error } = useCreateRecipe((response) => {
     setIsOpen(false);
     formFunctions.reset();
-    navigate(`/recipes/${result.recipe.id}`);
+    if (response?.recipe?.id) {
+      navigate(`/recipes/${response.recipe.id}`);
+    }
   });
 
   const formFunctions = useForm<RecipeInput>({

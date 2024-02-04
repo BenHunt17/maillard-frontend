@@ -1,5 +1,6 @@
 import { useFetch } from "../../common/hooks/useFetch";
 import { useRequest } from "../../common/hooks/useRequest";
+import { Maybe } from "../../core/utils/types";
 import { RecipeResponse } from "./types/RecipeResponse";
 import { AbridgedRecipesResponse } from "./types/abridgedRecipesResponse";
 
@@ -8,7 +9,7 @@ export function useSearchRecipes(
   offset: number,
   limit: number
 ) {
-  const { data, loading, error } = useFetch<AbridgedRecipesResponse>(
+  const { data, loading, error } = useFetch<Maybe<AbridgedRecipesResponse>>(
     "/recipes/search/",
     "POST",
     {
@@ -20,16 +21,17 @@ export function useSearchRecipes(
 }
 
 export function useGetRecipe(id: string) {
-  const { data, loading, error, updateResult } = useFetch<RecipeResponse>(
-    `/recipes/${id}`,
-    "GET"
-  );
+  const { data, loading, error, updateResult } = useFetch<
+    Maybe<RecipeResponse>
+  >(`/recipes/${id}`, "GET");
 
   return { data, loading, error, updateResult };
 }
 
-export function useCreateRecipe(onComplete: (value: RecipeResponse) => void) {
-  const { callback, loading, error } = useRequest<RecipeResponse>(
+export function useCreateRecipe(
+  onComplete: (value: Maybe<RecipeResponse>) => void
+) {
+  const { callback, loading, error } = useRequest<Maybe<RecipeResponse>>(
     `/recipes`,
     "POST",
     onComplete
@@ -41,10 +43,10 @@ export function useCreateRecipe(onComplete: (value: RecipeResponse) => void) {
 }
 
 export function useUpdateRecipeDetails(
-  onComplete: (value: RecipeResponse) => void,
+  onComplete: (value: Maybe<RecipeResponse>) => void,
   recipeId: String
 ) {
-  const { callback, loading, error } = useRequest<RecipeResponse>(
+  const { callback, loading, error } = useRequest<Maybe<RecipeResponse>>(
     `/recipes/${recipeId}`,
     "PATCH",
     onComplete
@@ -55,10 +57,10 @@ export function useUpdateRecipeDetails(
 }
 
 export function useUpdateRecipeIngredients(
-  onComplete: (value: RecipeResponse) => void,
+  onComplete: (value: Maybe<RecipeResponse>) => void,
   recipeId: String
 ) {
-  const { callback, loading, error } = useRequest<RecipeResponse>(
+  const { callback, loading, error } = useRequest<Maybe<RecipeResponse>>(
     `/recipes/${recipeId}/ingredients`,
     "PATCH",
     onComplete
@@ -70,10 +72,10 @@ export function useUpdateRecipeIngredients(
 }
 
 export function useUpdateRecipeInstructions(
-  onComplete: (value: RecipeResponse) => void,
+  onComplete: (value: Maybe<RecipeResponse>) => void,
   recipeId: String
 ) {
-  const { callback, loading, error } = useRequest<RecipeResponse>(
+  const { callback, loading, error } = useRequest<Maybe<RecipeResponse>>(
     `/recipes/${recipeId}/instructions`,
     "PATCH",
     onComplete
@@ -85,7 +87,7 @@ export function useUpdateRecipeInstructions(
 
 export function useUploadRecipeImage(
   id: string,
-  onComplete: (result: RecipeResponse) => void
+  onComplete: (result: Maybe<RecipeResponse>) => void
 ) {
   const { callback, loading, error } = useRequest(
     `/recipes/${id}/addimage`,
@@ -105,7 +107,7 @@ export function useUploadRecipeImage(
 
 export function useRemoveRecipeImage(
   id: string,
-  onComplete: (result: RecipeResponse) => void
+  onComplete: (result: Maybe<RecipeResponse>) => void
 ) {
   const { callback, loading, error } = useRequest(
     `/recipes/${id}/removeimage`,

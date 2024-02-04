@@ -20,9 +20,10 @@ export function RecipeProvider({
 }: RecipeProviderProps) {
   const [recipe, setRecipe] = useState<Recipe>(initialRecipe);
 
-  const orderedInstructions = recipe.instructions.sort(
-    (a, b) => a.priorityNumber - b.priorityNumber
-  );
+  const orderedInstructions =
+    recipe?.instructions?.sort(
+      (a, b) => (a.priorityNumber ?? 0) - (b.priorityNumber ?? 0)
+    ) ?? [];
 
   return (
     <RecipeContext.Provider

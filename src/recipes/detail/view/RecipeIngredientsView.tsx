@@ -12,7 +12,7 @@ export default function RecipeIngredientsView({
 }: RecipeIngredientsViewProps) {
   const { recipe } = useRecipe();
 
-  const hasIngredients = recipe.ingredients.length > 0;
+  const hasIngredients = (recipe?.ingredients?.length ?? 0) > 0;
 
   return (
     <InfoBox>
@@ -24,11 +24,13 @@ export default function RecipeIngredientsView({
       </Box>
       {hasIngredients ? (
         <Layout>
-          {recipe.ingredients.map((ingredient) => (
+          {recipe?.ingredients?.map((ingredient) => (
             <li key={ingredient.id}>
               <Typography variant="body1">
                 {ingredient.displayLabel ??
-                  `${ingredient.quantity}g ${ingredient.name}`}
+                  (ingredient.quantity && ingredient.name
+                    ? `${ingredient.quantity}g ${ingredient.name}`
+                    : "Unknown")}
               </Typography>
             </li>
           ))}

@@ -16,7 +16,7 @@ export default function UpdateIngredientsModalController({
 }: ModalStateProps) {
   const { recipe, setRecipe } = useRecipe();
 
-  const currentIngredients = recipe.ingredients;
+  const currentIngredients = recipe?.ingredients ?? [];
 
   const defaultValues = getDefaultValues(currentIngredients);
 
@@ -32,11 +32,15 @@ export default function UpdateIngredientsModalController({
 
   const { updateRecipeIngredients, loading } = useUpdateRecipeIngredients(
     (response) => {
-      setRecipe(response.recipe);
-      formFunctions.reset(getDefaultValues(response.recipe.ingredients));
+      if (response?.recipe) {
+        setRecipe(response.recipe);
+      }
+      formFunctions.reset(
+        getDefaultValues(response?.recipe?.ingredients ?? [])
+      );
       setIsOpen(false);
     },
-    recipe.id
+    recipe?.id ?? ""
   );
 
   const handleUpdateRecipeIngredients = (formData: IngredientInput) =>
@@ -46,7 +50,7 @@ export default function UpdateIngredientsModalController({
     append({
       name: "",
       quantity: 0,
-      displayLabel: "",
+      displayLabel: undefined,
       externalId: "",
     });
 

@@ -26,9 +26,15 @@ export default function RecipeMethodologyView({
         <div>
           {orderedInstructions.map((instruction) => (
             <Typography key={instruction.id} variant="body1">
-              <b>{instruction.priorityNumber}</b>
-              &nbsp; &nbsp;
-              {instruction.step}
+              {instruction.priorityNumber && instruction.step ? (
+                <>
+                  <b>{instruction.priorityNumber}</b>
+                  &nbsp; &nbsp;
+                  {instruction.step}
+                </>
+              ) : (
+                "Unknown"
+              )}
             </Typography>
           ))}
         </div>

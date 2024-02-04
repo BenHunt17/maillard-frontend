@@ -1,40 +1,44 @@
+import { Maybe } from "../../../core/utils/types";
+
+//Optional TODO - maybe make a recursive type for this maybe stuff
+
 export interface RecipeResponse {
-  recipe: Recipe;
+  recipe: Maybe<Recipe>;
 }
 
 export interface Recipe {
-  id: string;
-  name: string;
-  creationDate: Date;
-  imageUrl: string | undefined;
-  description: string | undefined;
-  ingredients: Ingredient[];
-  instructions: Instruction[];
-  data: {
-    prepTime: number;
-    cookTime: number;
-    washingUpTime: number;
-  };
-  nutrients: Nutrient[];
+  id: Maybe<string>;
+  name: Maybe<string>;
+  creationDate: Maybe<Date>;
+  imageUrl: Maybe<string | undefined>;
+  description: Maybe<string | undefined>;
+  ingredients: Maybe<Ingredient[]>;
+  instructions: Maybe<Instruction[]>;
+  data: Maybe<{
+    prepTime: Maybe<number>;
+    cookTime: Maybe<number>;
+    washingUpTime: Maybe<number>;
+  }>;
+  nutrients: Maybe<Nutrient[]>;
 }
 
 export interface Ingredient {
-  id: string;
-  name: string;
-  quantity: number;
-  displayLabel: string | undefined;
-  externalId: string;
+  id: Maybe<string>;
+  name: Maybe<string>;
+  quantity: Maybe<number>;
+  displayLabel: Maybe<string | undefined>;
+  externalId: Maybe<string>;
 }
 
 export interface Instruction {
-  id: string;
-  priorityNumber: number;
-  step: string;
+  id: Maybe<string>;
+  priorityNumber: Maybe<number>;
+  step: Maybe<string>;
 }
 
 export interface Nutrient {
-  number: number;
-  name: string;
-  value: number;
-  unitName: string;
+  number: Maybe<number>;
+  name: Maybe<string>;
+  value: Maybe<number>;
+  unitName: Maybe<string>;
 }

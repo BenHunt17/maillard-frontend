@@ -1,4 +1,5 @@
 import { useFetch } from "../../common/hooks/useFetch";
+import { Maybe } from "../../core/utils/types";
 import { IngredientResponse } from "./types/IngredientResponse";
 
 export function useSearchIngredients(
@@ -6,7 +7,7 @@ export function useSearchIngredients(
   offset: number,
   limit: number
 ) {
-  const { data, loading, error } = useFetch<IngredientResponse>(
+  const { data, loading, error } = useFetch<Maybe<IngredientResponse>>(
     "/ingredients/search/",
     "POST",
     {

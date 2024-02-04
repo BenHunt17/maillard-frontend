@@ -1,4 +1,8 @@
-export function minutesToTimeString(minutes: number) {
+export function minutesToTimeString(minutes: number | undefined) {
+  if (minutes === undefined) {
+    return "Unknown";
+  }
+
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
 

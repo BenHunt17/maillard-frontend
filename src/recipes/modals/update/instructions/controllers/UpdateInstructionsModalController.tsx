@@ -30,11 +30,17 @@ export default function UpdateInstructionsModalController({
 
   const { updateInstructions, loading } = useUpdateRecipeInstructions(
     (response) => {
-      setRecipe(response.recipe);
-      formFunctions.reset(getDefaultValues(response.recipe.instructions));
+      if (response?.recipe) {
+        setRecipe(response.recipe);
+      }
+      formFunctions.reset(
+        response?.recipe?.instructions
+          ? getDefaultValues(response.recipe.instructions)
+          : undefined
+      );
       setIsOpen(false);
     },
-    recipe.id
+    recipe?.id ?? ""
   );
 
   const handleUpdateInstructions = (formData: InstructionInput) =>

@@ -20,7 +20,7 @@ export default function RecipeOverviewView({
   return (
     <>
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Typography variant="h3">{recipe.name}</Typography>
+        <Typography variant="h3">{recipe?.name ?? "Unknown"}</Typography>
         <IconButton onClick={openModal}>
           <Edit />
         </IconButton>
@@ -33,18 +33,18 @@ export default function RecipeOverviewView({
       {recipeImage}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Typography variant="body1">
-          Prep time: <b>{minutesToTimeString(recipe.data.prepTime)}</b>
+          Prep time: <b>{minutesToTimeString(recipe?.data?.prepTime)}</b>
         </Typography>
         <Typography variant="body1">
-          Cooking time: <b>{minutesToTimeString(recipe.data.cookTime)}</b>
+          Cooking time: <b>{minutesToTimeString(recipe?.data?.cookTime)}</b>
         </Typography>
         <Typography variant="body1">
           Washing up time:
-          <b> {minutesToTimeString(recipe.data.washingUpTime)}</b>
+          <b> {minutesToTimeString(recipe?.data?.washingUpTime)}</b>
         </Typography>
       </Box>
-      {recipe.nutrients.length > 0 && (
-        <ZebraView content={cleanNutrientsData(recipe.nutrients)} />
+      {(recipe?.nutrients?.length ?? 0) > 0 && (
+        <ZebraView content={cleanNutrientsData(recipe?.nutrients ?? [])} />
       )}
     </>
   );
@@ -63,7 +63,7 @@ function cleanNutrientsData(nutrients: Nutrient[]) {
   ];
 
   return nutrients.reduce<{ name: string; value: string }[]>((acc, curr) => {
-    if (!relevantNutrients.includes(curr.name)) {
+    if (!relevantNutrients.includes(curr?.name ?? "")) {
       return acc;
     }
     if (curr.name === "Energy" && curr.unitName === "kJ") {
@@ -73,8 +73,10 @@ function cleanNutrientsData(nutrients: Nutrient[]) {
     return [
       ...acc,
       {
-        name: curr.name,
-        value: `${Math.round(curr.value * 1000) / 1000} ${curr.unitName}`,
+        name: curr?.name ?? "",
+        value: curr?.value
+          ? `${Math.round(curr.value * 1000) / 1000} ${curr.unitName}`
+          : "0",
       },
     ];
   }, []);

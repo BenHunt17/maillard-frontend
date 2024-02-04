@@ -19,12 +19,16 @@ export default function UpdateRecipeDetailsModelController({
   const { recipe, setRecipe } = useRecipe();
 
   const { updateRecipeDetails, loading, error } = useUpdateRecipeDetails(
-    (result) => {
-      setRecipe(result.recipe);
-      formFunctions.reset(getDefaultValues(result.recipe));
+    (response) => {
+      if (response?.recipe) {
+        setRecipe(response.recipe);
+      }
+      formFunctions.reset(
+        response?.recipe ? getDefaultValues(response.recipe) : undefined
+      );
       setIsOpen(false);
     },
-    recipe.id
+    recipe?.id ?? ""
   );
 
   const formFunctions = useForm<RecipeInput>({
@@ -72,9 +76,9 @@ function getDefaultValues(recipe: Recipe) {
     name: recipe.name,
     description: recipe.description,
     data: {
-      prepTime: minutesToTimeString(recipe.data.prepTime),
-      cookTime: minutesToTimeString(recipe.data.cookTime),
-      washingUpTime: minutesToTimeString(recipe.data.washingUpTime),
+      prepTime: minutesToTimeString(recipe?.data?.prepTime),
+      cookTime: minutesToTimeString(recipe?.data?.cookTime),
+      washingUpTime: minutesToTimeString(recipe?.data?.washingUpTime),
     },
   };
 }
