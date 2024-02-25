@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "../../core/auth/AuthProvider";
 
 export function useRequest<T>(
   url: string,
@@ -7,6 +8,7 @@ export function useRequest<T>(
 ) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | undefined>(undefined);
+  const { bearerToken } = useAuth();
 
   const callback = async (options?: Options) => {
     setLoading(true);
@@ -20,6 +22,7 @@ export function useRequest<T>(
         ...(!options?.formData
           ? { "Content-Type": "application/json;charset=utf-8" }
           : {}),
+        ...(bearerToken ? { authorization: `Bearer ${bearerToken}` } : {}),
       }),
     };
 

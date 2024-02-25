@@ -1,14 +1,18 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 
 interface LoginViewProps {
   handleLogin: () => void;
   handleGuestUser: () => void;
+  loginError: boolean;
 }
 
 export default function LoginView({
   handleLogin,
   handleGuestUser,
+  loginError,
 }: LoginViewProps) {
+  const theme = useTheme();
+
   return (
     <Box
       display="flex"
@@ -27,6 +31,11 @@ export default function LoginView({
         </Button>
         <Button onClick={handleGuestUser}>Continue as guest</Button>
       </Box>
+      {loginError && (
+        <Typography variant="body1" color={theme.palette.error.main}>
+          Login unsuccessful
+        </Typography>
+      )}
     </Box>
   );
 }

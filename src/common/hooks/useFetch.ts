@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../../core/auth/AuthProvider";
 
 export function useFetch<T>(
   url: string,
@@ -9,8 +10,9 @@ export function useFetch<T>(
   }
 ) {
   const [data, setData] = useState<T>();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | undefined>(undefined);
+  const { bearerToken } = useAuth();
 
   const searchParams = options?.queryParams
     ? new URLSearchParams(options.queryParams).toString()
@@ -26,6 +28,7 @@ export function useFetch<T>(
         headers: new Headers({
           Accept: "application/json",
           "Content-Type": "application/json;charset=utf-8",
+          ...(bearerToken ? { authorization: `Bearer ${bearerToken}` } : {}),
         }),
       };
 

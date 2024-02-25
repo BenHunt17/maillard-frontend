@@ -2,6 +2,7 @@ import { Box, IconButton, Typography, styled } from "@mui/material";
 import { InfoBox } from "../../../common/components/styled/InfoBox";
 import { Edit } from "@mui/icons-material";
 import { useRecipe } from "../../common/RecipeProvider";
+import { useAuth } from "../../../core/auth/AuthProvider";
 
 interface RecipeIngredientsViewProps {
   openModal: () => void;
@@ -11,6 +12,7 @@ export default function RecipeIngredientsView({
   openModal,
 }: RecipeIngredientsViewProps) {
   const { recipe } = useRecipe();
+  const { bearerToken } = useAuth();
 
   const hasIngredients = (recipe?.ingredients?.length ?? 0) > 0;
 
@@ -18,9 +20,11 @@ export default function RecipeIngredientsView({
     <InfoBox>
       <Box display="flex" justifyContent="space-between">
         <Typography variant="h6">Ingredients</Typography>
-        <IconButton onClick={openModal}>
-          <Edit />
-        </IconButton>
+        {bearerToken !== undefined && (
+          <IconButton onClick={openModal}>
+            <Edit />
+          </IconButton>
+        )}
       </Box>
       {hasIngredients ? (
         <Layout>

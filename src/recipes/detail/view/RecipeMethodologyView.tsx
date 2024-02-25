@@ -2,6 +2,7 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { InfoBox } from "../../../common/components/styled/InfoBox";
 import { Edit } from "@mui/icons-material";
 import { useRecipe } from "../../common/RecipeProvider";
+import { useAuth } from "../../../core/auth/AuthProvider";
 
 interface RecipeMethodologyViewProps {
   openModal: () => void;
@@ -11,6 +12,7 @@ export default function RecipeMethodologyView({
   openModal,
 }: RecipeMethodologyViewProps) {
   const { orderedInstructions } = useRecipe();
+  const { bearerToken } = useAuth();
 
   const hasInstructions = orderedInstructions.length > 0;
 
@@ -18,9 +20,11 @@ export default function RecipeMethodologyView({
     <InfoBox>
       <Box display="flex" justifyContent="space-between">
         <Typography variant="h6">Methodology</Typography>
-        <IconButton onClick={openModal}>
-          <Edit />
-        </IconButton>
+        {bearerToken !== undefined && (
+          <IconButton onClick={openModal}>
+            <Edit />
+          </IconButton>
+        )}
       </Box>
       {hasInstructions ? (
         <div>

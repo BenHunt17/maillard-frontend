@@ -4,6 +4,7 @@ import ImagePlaceholder from "../../../assets/imagePlaceholder.png";
 
 import { useState } from "react";
 import UpdateImgModal from "./UpdateImgModal";
+import { useAuth } from "../../../core/auth/AuthProvider";
 
 interface ImgProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   onUpload?: (value: File) => void;
@@ -13,8 +14,12 @@ interface ImgProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 
 export default function Img(props: ImgProps) {
   const [showModal, setShowModal] = useState(false);
+  const { bearerToken } = useAuth();
 
-  const canUpdate = Boolean(props.onUpload) && Boolean(props.onRemove);
+  const canUpdate =
+    bearerToken !== undefined &&
+    Boolean(props.onUpload) &&
+    Boolean(props.onRemove);
 
   if (props.isLoading) {
     return (

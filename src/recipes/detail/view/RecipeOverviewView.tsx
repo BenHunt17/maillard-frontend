@@ -5,6 +5,7 @@ import { useRecipe } from "../../common/RecipeProvider";
 import { Nutrient } from "../../data/types/RecipeResponse";
 import { Edit } from "@mui/icons-material";
 import { minutesToTimeString } from "../../modals/common/minutesToTimeString";
+import { useAuth } from "../../../core/auth/AuthProvider";
 
 interface RecipeOverviewViewProps {
   recipeImage: React.ReactNode;
@@ -16,14 +17,17 @@ export default function RecipeOverviewView({
   openModal,
 }: RecipeOverviewViewProps) {
   const { recipe } = useRecipe();
+  const { bearerToken } = useAuth();
 
   return (
     <>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Typography variant="h3">{recipe?.name ?? "Unknown"}</Typography>
-        <IconButton onClick={openModal}>
-          <Edit />
-        </IconButton>
+        {bearerToken !== undefined && (
+          <IconButton onClick={openModal}>
+            <Edit />
+          </IconButton>
+        )}
       </Box>
       {recipe.description && (
         <InfoBox>

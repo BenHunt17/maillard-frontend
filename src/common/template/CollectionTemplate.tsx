@@ -11,6 +11,7 @@ import Loading from "../components/Loading";
 import { PAGINATION_LIMIT } from "../utils/constants";
 import AddIcon from "@mui/icons-material/Add";
 import { useResponsiveLayout } from "../hooks/useResponsiveLayout";
+import { useAuth } from "../../core/auth/AuthProvider";
 
 interface CollectionTemplateProps<T> {
   searchText: string;
@@ -32,6 +33,7 @@ export default function CollectionTemplate<T>({
   openModal,
 }: CollectionTemplateProps<T>) {
   const isMobile = useResponsiveLayout("mobile");
+  const { bearerToken } = useAuth();
 
   const pageCount = Math.ceil(paginationOptions.total / PAGINATION_LIMIT);
 
@@ -64,7 +66,7 @@ export default function CollectionTemplate<T>({
               color="primary"
             />
           )}
-          {!openModal && (
+          {bearerToken !== undefined && openModal && (
             <IconButton onClick={openModal}>
               <AddIcon />
             </IconButton>
