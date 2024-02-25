@@ -8,12 +8,10 @@ import {
 } from "../../../common/utils/constants";
 import Error from "../../../common/components/Error";
 import CreateRecipeModelController from "../../modals/create/controller/CreateRecipeModalController";
-import { useAuth } from "../../../core/auth/AuthProvider";
 
 export default function RecipeCollectionController() {
   const [searchText, setSearchText] = useState("");
   const [searchTerm] = useDebounce(searchText, SEARCH_DEBOUNCE_DELAY);
-  const { bearerToken } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
 

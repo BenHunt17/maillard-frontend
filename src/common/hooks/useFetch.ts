@@ -61,7 +61,7 @@ export function useFetch<T>(
     };
 
     request();
-  }, [url, method, body, searchParams]);
+  }, [url, method, body, searchParams, bearerToken]);
 
   return { data, loading, error, updateResult: setData };
 }
